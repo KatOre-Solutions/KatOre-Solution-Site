@@ -2,46 +2,32 @@
   command = "npm run build"
   publish = ".next"
 
+[build.environment]
+  # Next.js 16 requires Node 20+; pin so builds don't drift with Netlify defaults.
+  NODE_VERSION = "22"
+
 # Declared explicitly: the site was created blank and had its repo attached via
 # the API, so Netlify's framework auto-detection never ran. Without this the CI
 # build publishes the raw .next directory as static files and every route 404s.
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[build.environment]
-  # Next.js 16 requires Node 20+; pin so builds don't drift with Netlify defaults.
-  NODE_VERSION = "22"
-
-# Production: the master branch, served on the primary domain.
+# public/_headers ships a site-wide noindex, so every context is non-indexable
+# by default and only production opts back in by deleting it before the build.
+# Netlify does not support context-specific [[headers]] in this file, which is
+# why this is done through the build command instead.
 [context.production]
-  command = "npm run build"
+  command = "rm -f public/_headers && npm run build"
 
   [context.production.environment]
     NEXT_PUBLIC_DEPLOY_ENV = "production"
 
 # Pre-production: the main branch, served at main--<site>.netlify.app.
-[context."main"]
-  command = "npm run build"
+[context."main".environment]
+  NEXT_PUBLIC_DEPLOY_ENV = "preproduction"
 
-  [context."main".environment]
-    NEXT_PUBLIC_DEPLOY_ENV = "preproduction"
+[context.branch-deploy.environment]
+  NEXT_PUBLIC_DEPLOY_ENV = "branch"
 
-# Keep the pre-production branch out of search results.
-[[context."main".headers]]
-  for = "/*"
-
-  [context."main".headers.values]
-    X-Robots-Tag = "noindex, nofollow"
-
-# Any other branch that gets deployed is also non-indexable.
-[[context.branch-deploy.headers]]
-  for = "/*"
-
-  [context.branch-deploy.headers.values]
-    X-Robots-Tag = "noindex, nofollow"
-
-[[context.deploy-preview.headers]]
-  for = "/*"
-
-  [context.deploy-preview.headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+[context.deploy-preview.environment]
+  NEXT_PUBLIC_DEPLOY_ENV = "preview"
