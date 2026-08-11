@@ -1,0 +1,41 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next.js 16 requires Node 20+; pin so builds don't drift with Netlify defaults.
+  NODE_VERSION = "22"
+
+# Production: the master branch, served on the primary domain.
+[context.production]
+  command = "npm run build"
+
+  [context.production.environment]
+    NEXT_PUBLIC_DEPLOY_ENV = "production"
+
+# Pre-production: the main branch, served at main--<site>.netlify.app.
+[context."main"]
+  command = "npm run build"
+
+  [context."main".environment]
+    NEXT_PUBLIC_DEPLOY_ENV = "preproduction"
+
+# Keep the pre-production branch out of search results.
+[[context."main".headers]]
+  for = "/*"
+
+  [context."main".headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# Any other branch that gets deployed is also non-indexable.
+[[context.branch-deploy.headers]]
+  for = "/*"
+
+  [context.branch-deploy.headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[context.deploy-preview.headers]]
+  for = "/*"
+
+  [context.deploy-preview.headers.values]
+    X-Robots-Tag = "noindex, nofollow"
