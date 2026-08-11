@@ -8,6 +8,7 @@ import {
   CAMERA_FOV,
   CAMERA_Z,
   POINT_COUNT,
+  SERVICES_SPLIT_MIN,
   getColors,
   getLogoShape,
   getShapes,
@@ -42,6 +43,14 @@ type Inst = {
   dispTone: number;
   appliedTone: number;
 };
+
+/**
+ * Phones pair high device pixel ratios with far less fill rate than the
+ * desktops that ratio was chosen for, and this canvas covers the whole
+ * viewport. Capping lower there costs little on a small screen and keeps the
+ * point cloud from dominating the frame budget.
+ */
+const maxPixelRatio = () => (window.innerWidth < SERVICES_SPLIT_MIN ? 1.5 : 2);
 
 /** Cursor repulsion, in world units. */
 const PUSH_RADIUS = 125;
@@ -93,7 +102,7 @@ export default function ParticleField() {
         alpha: true,
         antialias: true,
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio()));
       renderer.setSize(window.innerWidth, window.innerHeight, false);
 
       const positions = new Float32Array(POINT_COUNT * 3);
@@ -155,6 +164,11 @@ export default function ParticleField() {
     const inst = instRef.current;
 
     const setSize = () => {
+      // Re-applied on resize as well: rotating a tablet can cross the
+      // breakpoint, and the ratio set at first paint would otherwise stick.
+      inst.renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, maxPixelRatio())
+      );
       inst.renderer.setSize(window.innerWidth, window.innerHeight, false);
       inst.camera.aspect = window.innerWidth / window.innerHeight;
       inst.camera.updateProjectionMatrix();

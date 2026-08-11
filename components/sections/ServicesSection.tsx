@@ -5,11 +5,24 @@ import SectionHeading from "@/components/SectionHeading";
 import { serviceCards } from "@/lib/data";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { particleController } from "@/lib/particleController";
-import { LOGO_SPAN, fitScale, getLogoShape, getShapes } from "@/lib/particleShapes";
+import {
+  LOGO_SPAN,
+  SERVICES_SPLIT_MIN,
+  fitScale,
+  getLogoShape,
+  getShapes,
+  pxToWorldX,
+  servicesScale,
+} from "@/lib/particleShapes";
 
-/** Card track geometry, in px. */
-const ACTIVE_W = 380;
-const COLLAPSED_W = 168;
+/**
+ * Card track geometry, in px. These are the widths the deck wants; on a narrow
+ * viewport the track measures itself and scales them down, since a 380px card
+ * inside a ~335px content column would be clipped by the pin's overflow.
+ */
+const MAX_ACTIVE_W = 380;
+const MAX_COLLAPSED_W = 168;
+const MIN_COLLAPSED_W = 92;
 const GAP = 16;
 /** How far each spent card peels to the left as it slides under the stack. */
 const STACK_STEP = 22;
@@ -76,6 +89,7 @@ export default function ServicesSection() {
   const triggerRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const bandRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const activeRef = useRef(0);
   const [active, setActive] = useState(0);
@@ -90,7 +104,65 @@ export default function ServicesSection() {
     const shapes = getShapes();
     const logo = getLogoShape();
     const n = serviceCards.length;
-    const LEFT_OFFSET = -330;
+
+    /**
+     * Card widths, remeasured from the track whenever the viewport changes.
+     * `layout` runs per scroll frame, so it reads these rather than touching
+     * the DOM itself.
+     */
+    let activeW = MAX_ACTIVE_W;
+    let collapsedW = MAX_COLLAPSED_W;
+
+    const measure = () => {
+      const w = trackRef.current?.clientWidth ?? MAX_ACTIVE_W;
+      activeW = Math.min(MAX_ACTIVE_W, w);
+      // Keep the queued cards proportional to the active one so the deck reads
+      // the same at any width, but never so thin the spine label can't sit.
+      collapsedW = Math.max(
+        MIN_COLLAPSED_W,
+        Math.min(MAX_COLLAPSED_W, activeW * 0.44)
+      );
+    };
+
+    /**
+     * The last frame the ScrollTrigger produced. Held so a resize can re-run
+     * the layout and re-place the cloud without waiting for the next scroll —
+     * an orientation change would otherwise leave both mid-transition at the
+     * old geometry.
+     */
+    const view = { pos: 0, index: 0, next: 0, morphT: 0, band: 0, exitFade: 0 };
+    let owns = false;
+
+    /**
+     * Where the cloud sits horizontally, in world units.
+     *
+     * On the split layout it centres in the gutter the inset cards leave, taken
+     * from the track's measured position rather than a tuned constant — the
+     * content column is capped by `--w-main`, so that gutter is not a fixed
+     * fraction of the viewport and a hard-coded offset drifts off the mark on
+     * wide screens and portrait aspects alike.
+     *
+     * Below the breakpoint the cards are full width and there is no gutter, so
+     * the cloud centres and sits behind them as a backdrop instead.
+     */
+    const cloudOffsetX = () => {
+      if (window.innerWidth < SERVICES_SPLIT_MIN) return 0;
+      const left = trackRef.current?.getBoundingClientRect().left ?? 0;
+      return pxToWorldX(left / 2);
+    };
+
+    const applyCloud = () => {
+      particleController.set({
+        shapeA: shapes[view.index],
+        shapeB: shapes[view.next],
+        morphT: view.morphT,
+        offsetX: cloudOffsetX(),
+        scale: servicesScale(),
+        opacity: 1 - view.exitFade * 0.88,
+        spin: 0.12,
+        tone: view.band, // platinum ramp while the dark band is up
+      });
+    };
 
     /**
      * Past the section the cloud would otherwise be stranded as the last
@@ -106,6 +178,7 @@ export default function ServicesSection() {
     const settleOnLogo = () => {
       exitTween?.kill();
       exit.t = 0;
+      owns = false;
       particleController.set({
         offsetX: 0,
         scale: fitScale(LOGO_SPAN),
@@ -141,6 +214,7 @@ export default function ServicesSection() {
      * shuffling rather than a carousel scrolling.
      */
     const layout = (pos: number) => {
+      view.pos = pos;
       for (let i = 0; i < n; i++) {
         const el = cardRefs.current[i];
         if (!el) continue;
@@ -153,13 +227,13 @@ export default function ServicesSection() {
         if (d <= 0) {
           // Spent (or active): stacked at the left edge, fading as it goes.
           x = d * STACK_STEP;
-          w = ACTIVE_W;
+          w = activeW;
           opacity = Math.max(0, 1 + d * 0.55);
         } else {
           // Queued: first slot opens to the full active width, then a run of
           // collapsed slots.
-          x = d <= 1 ? d * (ACTIVE_W + GAP) : ACTIVE_W + GAP + (d - 1) * (COLLAPSED_W + GAP);
-          w = ACTIVE_W + (COLLAPSED_W - ACTIVE_W) * Math.min(d, 1);
+          x = d <= 1 ? d * (activeW + GAP) : activeW + GAP + (d - 1) * (collapsedW + GAP);
+          w = activeW + (collapsedW - activeW) * Math.min(d, 1);
         }
 
         el.style.transform = `translate3d(${x}px,0,0)`;
@@ -170,7 +244,17 @@ export default function ServicesSection() {
         el.style.zIndex = `${10 + i}`;
       }
     };
+    measure();
     layout(0);
+
+    // Re-measure before ScrollTrigger recalculates, so the pin's own resize
+    // pass sees the new card widths rather than last frame's.
+    const onResize = () => {
+      measure();
+      layout(view.pos);
+      if (owns) applyCloud();
+    };
+    window.addEventListener("resize", onResize);
 
     const ctx = gsap.context(() => {
       const st = ScrollTrigger.create({
@@ -203,16 +287,13 @@ export default function ServicesSection() {
           // — an opaque light navbar would cut a strip across the dark section.
           document.documentElement.dataset.band = band > 0.5 ? "dark" : "";
 
-          particleController.set({
-            shapeA: shapes[index],
-            shapeB: shapes[next],
-            morphT,
-            offsetX: LEFT_OFFSET,
-            scale: 0.68,
-            opacity: 1 - exitFade * 0.88,
-            spin: 0.12,
-            tone: band, // platinum ramp while the dark band is up
-          });
+          view.index = index;
+          view.next = next;
+          view.morphT = morphT;
+          view.band = band;
+          view.exitFade = exitFade;
+          owns = true;
+          applyCloud();
 
           if (index !== activeRef.current) {
             activeRef.current = index;
@@ -241,6 +322,7 @@ export default function ServicesSection() {
 
     return () => {
       exitTween?.kill();
+      window.removeEventListener("resize", onResize);
       ctx.revert();
       document.documentElement.dataset.band = "";
     };
@@ -312,8 +394,10 @@ export default function ServicesSection() {
 
           {/* Card track. Cards are absolutely placed and driven directly from
               the ScrollTrigger, so scrubbing stays on the compositor. */}
-          <div className="mt-10 md:pl-[38%]">
-            <div className="relative h-[380px]">
+          <div className="mt-8 md:mt-10 md:pl-[38%]">
+            {/* Taller on narrow screens: the card is only as wide as the column
+                there, so the detail grid inside it runs longer. */}
+            <div ref={trackRef} className="relative h-[440px] sm:h-[380px]">
               {serviceCards.map((card, i) => (
                 <article
                   key={card.number}
@@ -350,7 +434,9 @@ export default function ServicesSection() {
                       i === active ? "opacity-100 delay-150" : "opacity-0"
                     }`}
                   >
-                    <h2 className="mt-3 whitespace-nowrap text-2xl font-bold text-foreground">
+                    {/* Only pinned to one line once the card has the width for
+                        it; below that a nowrap headline is clipped outright. */}
+                    <h2 className="mt-3 text-xl font-bold text-foreground sm:whitespace-nowrap sm:text-2xl">
                       {card.title}
                     </h2>
                     <ServiceDetail card={card} />

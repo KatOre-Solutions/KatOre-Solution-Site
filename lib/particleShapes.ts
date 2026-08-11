@@ -27,6 +27,40 @@ export function fitScale(width: number, margin = 0.88): number {
   return Math.min(1, (worldWidth * margin) / width);
 }
 
+/**
+ * Viewport width at which the Services section splits into a left gutter for the
+ * cloud and a right column for the cards. Mirrors the `md:` breakpoint the
+ * section's `md:pl-[38%]` insets use — the two must move together, or the cloud
+ * ends up parked in a gutter that no longer exists.
+ */
+export const SERVICES_SPLIT_MIN = 768;
+
+/** Half the visible world width at the current viewport aspect. */
+function worldHalfWidth(): number {
+  const halfH = Math.tan((CAMERA_FOV / 2) * (Math.PI / 180)) * CAMERA_Z;
+  return halfH * (window.innerWidth / window.innerHeight);
+}
+
+/**
+ * Convert a horizontal viewport position in CSS pixels to world units on the
+ * cloud's plane, so a section can place the cloud against something it has
+ * actually measured rather than against a tuned constant.
+ */
+export function pxToWorldX(px: number): number {
+  if (typeof window === "undefined") return 0;
+  return (px / window.innerWidth - 0.5) * 2 * worldHalfWidth();
+}
+
+/**
+ * Uniform scale for the Services cloud. Centred behind the cards it has the
+ * full width to work with but must stay clear of the card edges, so it runs a
+ * little smaller than it does out in its own gutter.
+ */
+export function servicesScale(): number {
+  if (typeof window === "undefined") return 0.68;
+  return window.innerWidth < SERVICES_SPLIT_MIN ? 0.52 : 0.68;
+}
+
 /** Fibonacci-sphere distribution (matches the original hero sphere). */
 export function sphere(): Float32Array {
   const out = new Float32Array(POINT_COUNT * 3);
