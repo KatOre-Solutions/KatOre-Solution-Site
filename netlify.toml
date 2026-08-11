@@ -12,15 +12,12 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# public/_headers ships a site-wide noindex, so every context is non-indexable
-# by default and only production opts back in by deleting it before the build.
-# Netlify does not support context-specific [[headers]] in this file, which is
-# why this is done through the build command instead.
-[context.production]
-  command = "rm -f public/_headers && npm run build"
-
-  [context.production.environment]
-    NEXT_PUBLIC_DEPLOY_ENV = "production"
+# NEXT_PUBLIC_DEPLOY_ENV drives the noindex rule in next.config.ts: production
+# indexes normally, every other context is marked noindex. Context-specific
+# [[headers]] blocks are not supported in this file, which is why that lives in
+# the Next config instead.
+[context.production.environment]
+  NEXT_PUBLIC_DEPLOY_ENV = "production"
 
 # Pre-production: the main branch, served at main--<site>.netlify.app.
 [context."main".environment]
