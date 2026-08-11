@@ -2,6 +2,12 @@
   command = "npm run build"
   publish = ".next"
 
+# Declared explicitly: the site was created blank and had its repo attached via
+# the API, so Netlify's framework auto-detection never ran. Without this the CI
+# build publishes the raw .next directory as static files and every route 404s.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 [build.environment]
   # Next.js 16 requires Node 20+; pin so builds don't drift with Netlify defaults.
   NODE_VERSION = "22"
