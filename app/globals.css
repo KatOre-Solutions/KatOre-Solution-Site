@@ -1,26 +1,197 @@
 @import "tailwindcss";
 
+/*
+ * Katore Solutions colour system — black / graphite / silver / white.
+ * Predominantly light: soft white ground, deep graphite type, silver and
+ * platinum reserved for borders, highlights and sparing metallic detail.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f8fa; /* Soft White  — primary ground */
+  --surface: #ffffff; /* Pure White  — cards, raised panels */
+  --foreground: #111315; /* Deep Graphite — headings, nav, strong marks */
+  --muted-foreground: #5f6368; /* Slate Gray — supporting copy */
+
+  --silver: #a7abb0; /* Brand Silver */
+  --graphite: #2b2e32; /* Dark Metallic */
+  --platinum: #e4e6e9; /* Subtle Highlight */
+
+  --cta: #111315; /* Primary CTA ground */
+  --cta-hover: #34383d; /* Primary CTA hover */
+
+  /* Legacy token names kept so components need no sweeping rename; they now
+     point into the metallic ramp instead of the old indigo one. */
+  --accent: var(--silver);
+  --primary: #111315;
+  --secondary: var(--graphite);
+  --tertiary: #5f6368;
+  --lightaccent: var(--platinum);
+  --card: #ffffff;
+  --card-border: #d9dde2;
+  --muted: #e4e6e9;
+  --border: #d9dde2; /* Light Silver */
+
+  --w-main: 1500px;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-silver: var(--silver);
+  --color-graphite: var(--graphite);
+  --color-platinum: var(--platinum);
+  --color-cta: var(--cta);
+  --color-cta-hover: var(--cta-hover);
+  --color-accent: var(--accent);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-lightaccent: var(--lightaccent);
+  --color-card: var(--card);
+  --color-card-border: var(--card-border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --font-sans:
+    "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  background-color: var(--background);
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
+  /* Transparent so the fixed -z-10 particle canvas shows above the html
+     backdrop; html retains the base background color. */
+  background-color: transparent;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/*
+ * Metallic gradients, taken straight from the logo. Used sparingly — the dark
+ * one for the few high-contrast blocks (CTA band, case-study tiles), the light
+ * one for hairlines and small premium details. Not a general surface fill.
+ */
+.metal-dark {
+  background-image: linear-gradient(135deg, #111315 0%, #3a3e43 50%, #111315 100%);
+}
+
+.metal-light {
+  background-image: linear-gradient(135deg, #f5f6f7 0%, #d9dde2 52%, #ffffff 100%);
+}
+
+/** Hairline rule with a silver glint in the middle. */
+.metal-rule {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #d9dde2 18%,
+    #a7abb0 50%,
+    #d9dde2 82%,
+    transparent 100%
+  );
+}
+
+/*
+ * Header inversion. While the dark Services band is up (ServicesSection sets
+ * `data-band` on <html>), the fixed header flips to graphite so it doesn't cut
+ * a light strip across the section. Unlayered, so it outranks the utilities.
+ */
+/* `nav[class]` and the doubled attribute keep these above Tailwind's
+   `[&.nav-scrolled]:` variants, which compile to two-class selectors. */
+:root[data-band="dark"][data-band] nav[class] {
+  background-color: rgba(17, 19, 21, 0.62);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+:root[data-band="dark"][data-band] nav[class] a,
+:root[data-band="dark"][data-band] nav[class] button,
+:root[data-band="dark"][data-band] nav[class] span {
+  color: #ffffff;
+}
+
+:root[data-band="dark"][data-band] nav[class] a.nav-cta {
+  background-color: #ffffff;
+  color: var(--foreground);
+}
+
+:root[data-band="dark"][data-band] nav[class] a.nav-cta span,
+:root[data-band="dark"][data-band] nav[class] a.nav-cta svg {
+  color: var(--foreground);
+}
+
+/* Client marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Swiper overrides */
+.services-swiper .swiper-slide {
+  height: auto;
+}
+
+::selection {
+  background: var(--graphite);
+  color: #ffffff;
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--silver);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }
