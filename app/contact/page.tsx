@@ -7,7 +7,7 @@ export default function ContactPage() {
     <PlaceholderPage
       eyebrow="Contact"
       title="Start Your Project"
-      description="Tell us about your challenge and we'll get back within 24 hours. Reach us at atom@antimatterai.com."
+      description="Tell us about your challenge and we'll get back within 24 hours. Reach us at katoresolution@gmail.com."
     />
   );
 }

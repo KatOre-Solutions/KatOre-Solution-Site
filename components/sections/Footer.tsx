@@ -44,10 +44,10 @@ export default function Footer() {
         <div className="grid gap-12 border-b border-border pb-16 md:grid-cols-2">
           <div>
             <a
-              href="mailto:atom@antimatterai.com"
+              href="mailto:katoresolution@gmail.com"
               className="text-2xl font-medium text-foreground transition-colors hover:text-muted-foreground md:text-3xl"
             >
-              atom@antimatterai.com
+              katoresolution@gmail.com
             </a>
             <div className="mt-6 flex flex-col gap-2">
               <a
