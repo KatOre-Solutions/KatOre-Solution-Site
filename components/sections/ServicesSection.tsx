@@ -166,7 +166,7 @@ export default function ServicesSection() {
 
     /**
      * Past the section the cloud would otherwise be stranded as the last
-     * service glyph (the plus), parked off to the left. Settle it back onto the
+     * service glyph (the cube), parked off to the left. Settle it back onto the
      * centred `<KO/>` mark instead, faint enough to read as page texture.
      *
      * offsetX / scale are already smoothed inside ParticleField, so only the

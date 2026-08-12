@@ -280,50 +280,15 @@ export function chart(): Float32Array {
   });
 }
 
-/** Scattered 4-point sparkles. */
-export function sparkles(): Float32Array {
-  return glyph((ctx, s) => {
-    const stars = [
-      { x: 0.3, y: 0.34, r: 0.17 },
-      { x: 0.64, y: 0.28, r: 0.11 },
-      { x: 0.48, y: 0.62, r: 0.14 },
-      { x: 0.74, y: 0.66, r: 0.09 },
-    ];
-    for (const st of stars) {
-      const cx = st.x * s;
-      const cy = st.y * s;
-      const R = st.r * s;
-      const r = R * 0.34;
-      ctx.beginPath();
-      for (let k = 0; k < 8; k++) {
-        const ang = (Math.PI / 4) * k - Math.PI / 2;
-        const rad = k % 2 === 0 ? R : r;
-        const x = cx + Math.cos(ang) * rad;
-        const y = cy + Math.sin(ang) * rad;
-        if (k === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.closePath();
-      ctx.fill();
-    }
-  });
-}
-
-/** Medical plus / cross. */
-export function cross(): Float32Array {
-  return glyph((ctx, s) => {
-    const w = s * 0.2;
-    ctx.fillRect(s / 2 - w / 2, s * 0.2, w, s * 0.6);
-    ctx.fillRect(s * 0.2, s / 2 - w / 2, s * 0.6, w);
-  });
-}
-
 /**
- * Ordered shapes aligned to the six `serviceCards` (lib/data.ts):
- * UI/UX · Website · Web Dev · AI Dev · AI Agents · Healthcare.
+ * Ordered shapes aligned to the four `serviceCards` (lib/data.ts):
+ * Web · Custom Software · Automation · Hosting.
+ *
+ * The sphere stays first because the hero dissolves the `<KO/>` mark into
+ * `shapes[0]`, so Services opens on a shape the hero has already settled onto.
  */
 export function buildShapes(): Float32Array[] {
-  return [sphere(), cube(), codeBrackets(), chart(), sparkles(), cross()];
+  return [sphere(), codeBrackets(), chart(), cube()];
 }
 
 // Build once in the browser and share the same buffers across the field, hero,
@@ -403,7 +368,7 @@ export function getColors(tone: Tone): Float32Array {
   return c;
 }
 
-/** The hero's opening shape — kept out of `getShapes()` so the six service
+/** The hero's opening shape — kept out of `getShapes()` so the four service
  *  cards stay aligned to their own indices. */
 let logoCache: Float32Array | null = null;
 export function getLogoShape(): Float32Array {

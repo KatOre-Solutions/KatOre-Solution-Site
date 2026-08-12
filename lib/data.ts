@@ -4,18 +4,11 @@ export const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export const services = [
-  { label: "UI/UX Design", href: "/services/ui-ux-design" },
-  { label: "Website Design", href: "/services/website-design" },
-  { label: "Web Development", href: "/services/web-development" },
-  { label: "AI Development", href: "/services/ai-development" },
-  { label: "AI Agents", href: "/services/ai-agents" },
-  { label: "Healthcare Apps", href: "/services/healthcare-apps" },
-];
-
 export type ServiceCard = {
   number: string;
   title: string;
+  /** Route segment under /services. Also the key case-study tags mirror. */
+  slug: string;
   subtitle: string;
   description: string;
   items: string[];
@@ -23,104 +16,97 @@ export type ServiceCard = {
   accent: string;
 };
 
+/**
+ * Titles are held to ~25 characters: the expanded card pins its headline to a
+ * single line (`sm:whitespace-nowrap`) inside a 380px track, and anything longer
+ * is clipped by the card's own overflow rather than wrapping.
+ */
 export const serviceCards: ServiceCard[] = [
   {
     number: "01",
-    title: "UI/UX Design",
-    subtitle: "Product Design",
+    title: "Web Design & Development",
+    slug: "web-design-development",
+    subtitle: "Digital Experiences",
     description:
-      "Research-driven interfaces that feel effortless. We turn complex flows into intuitive, accessible experiences people love to use.",
+      "Modern, responsive websites that represent your brand, engage your audience, and turn visitors into customers.",
     items: [
-      "User Research & Strategy",
-      "UX Flows & Wireframes",
-      "UI Systems & Prototypes",
-      "Design Ops & Dev Handoff",
+      "Website Design",
+      "Responsive Development",
+      "Ecommerce Websites",
+      "Landing Pages",
+      "Website Redesign",
     ],
-    tools: ["Figma", "Sketch", "Adobe XD", "Blender", "Framer", "Abstract"],
+    tools: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Shopify"],
     accent: "#111315",
   },
   {
     number: "02",
-    title: "Website Design",
-    subtitle: "Brand & Web",
+    title: "Custom Software Solutions",
+    slug: "custom-software",
+    subtitle: "Software Development",
     description:
-      "Distinctive brand-led websites with motion and storytelling that convert visitors into customers.",
+      "Purpose-built software designed around your business — solving complex problems and streamlining how you operate.",
     items: [
-      "Brand & Visual Identity",
-      "Art Direction & Storytelling",
-      "Motion & Micro-interactions",
-      "Conversion Design Systems",
+      "Web Applications",
+      "Mobile Applications",
+      "SaaS Platforms",
+      "Business Systems",
+      "API Development",
     ],
-    tools: ["Figma", "Webflow", "Adobe", "Framer", "Spline", "After Effects"],
+    tools: ["React", "React Native", "Node.js", "TypeScript", "Firebase"],
     accent: "#2b2e32",
   },
   {
     number: "03",
-    title: "Web Development",
-    subtitle: "Engineering",
+    title: "Automation & Integrations",
+    slug: "automation-integrations",
+    subtitle: "Digital Automation",
     description:
-      "Performant, scalable platforms built with modern stacks — from frontend to cloud infrastructure.",
+      "Smarter workflows that connect your systems, automate repetitive tasks, and help your business run more efficiently.",
     items: [
-      "Frontend Platforms (React / Next)",
-      "Backend APIs & Microservices (Node)",
-      "Mobile & Cross-platform (Flutter)",
-      "CI/CD & Cloud Ops (Docker)",
+      "Workflow Automation",
+      "System Integrations",
+      "Third-Party APIs",
+      "Data Processing",
+      "Process Automation",
     ],
-    tools: ["React", "Next.js", "Node", "TypeScript", "Docker", "Vercel"],
-    accent: "#111315",
-  },
-  {
-    number: "04",
-    title: "AI Development",
-    subtitle: "Applied AI",
-    description:
-      "Production-grade AI systems — from LLM apps and fine-tuning to vision and speech pipelines.",
-    items: [
-      "LLM Apps & Agents (RAG / Tools)",
-      "Fine-tuning & Prompt Optimization",
-      "Model Evals, Guardrails & Monitoring",
-      "Vision, NLP & Speech Pipelines",
-    ],
-    tools: ["Python", "OpenAI", "HuggingFace", "LangChain", "PyTorch", "AWS"],
+    tools: ["Node.js", "REST APIs", "Firebase", "Google Cloud", "Integrations"],
     accent: "#34383d",
   },
   {
-    number: "05",
-    title: "AI Agents",
-    subtitle: "Autonomous Systems",
+    number: "04",
+    title: "Hosting & Support",
+    slug: "hosting-support",
+    subtitle: "Digital Infrastructure",
     description:
-      "Tool-using, memory-backed agents that automate real workflows across voice and text.",
+      "Reliable infrastructure and ongoing technical support that keeps your sites, apps, and domains running smoothly.",
     items: [
-      "Voice Agents & Call Centers",
-      "Tool-using LLM Agents",
-      "Multi-provider Orchestration",
-      "Knowledge Base & Memory",
+      "Website Hosting",
+      "Domain Management",
+      "Business Email Setup",
+      "Website Maintenance",
+      "Technical Support",
     ],
-    tools: ["OpenAI", "Twilio", "LangGraph", "Pinecone", "Redis", "n8n"],
-    accent: "#2b2e32",
-  },
-  {
-    number: "06",
-    title: "Healthcare Apps",
-    subtitle: "Regulated Software",
-    description:
-      "Compliant, secure healthcare products — telehealth, patient portals, and EHR integrations.",
-    items: [
-      "HIPAA & PHI Compliance",
-      "Telehealth & Patient Portals",
-      "EHR Integrations (FHIR / HL7)",
-      "Audit Logging & Access Controls",
-    ],
-    tools: ["React Native", "FHIR", "AWS", "PostgreSQL", "Stripe", "Twilio"],
+    tools: ["Netlify", "GoDaddy", "Zoho Mail", "DNS", "SSL"],
     accent: "#111315",
   },
 ];
+
+/**
+ * Service links for the navbar dropdown and the `/services/[slug]` routes,
+ * derived from the cards so a label can never drift from the section that
+ * defines it.
+ */
+export const services = serviceCards.map((card) => ({
+  label: card.title,
+  href: `/services/${card.slug}`,
+}));
 
 export type CaseStudy = {
   number: string;
   name: string;
   slug: string;
-  /** The services used to deliver the site; labels mirror `services` above. */
+  /** The services used to deliver the site; labels mirror `serviceCards`. */
   tags: string[];
   /** Still frame, shown always. ~30–95KB WebP in /public/work. */
   poster: string;
@@ -135,7 +121,7 @@ export const caseStudies: CaseStudy[] = [
     number: "01",
     name: "Space Voyage",
     slug: "space-voyage",
-    tags: ["Website Design", "UI/UX Design", "Web Development"],
+    tags: ["Web Design & Development", "Hosting & Support"],
     poster: "/work/space-voyage.webp",
     loop: "/work/space-voyage.mp4",
     gradient: "from-[#111315] to-[#3a3e43]",
@@ -144,7 +130,7 @@ export const caseStudies: CaseStudy[] = [
     number: "02",
     name: "CodeNest",
     slug: "codenest",
-    tags: ["Website Design", "Web Development", "UI/UX Design"],
+    tags: ["Web Design & Development", "Custom Software Solutions"],
     poster: "/work/codenest.webp",
     loop: "/work/codenest.mp4",
     gradient: "from-[#2b2e32] to-[#111315]",
@@ -153,7 +139,7 @@ export const caseStudies: CaseStudy[] = [
     number: "03",
     name: "Vex Ventures",
     slug: "vex-ventures",
-    tags: ["Website Design", "Web Development"],
+    tags: ["Web Design & Development"],
     poster: "/work/vex-ventures.webp",
     loop: "/work/vex-ventures.mp4",
     gradient: "from-[#34383d] to-[#15181a]",
@@ -162,7 +148,7 @@ export const caseStudies: CaseStudy[] = [
     number: "04",
     name: "Stellar AI",
     slug: "stellar-ai",
-    tags: ["AI Development", "AI Agents", "UI/UX Design"],
+    tags: ["Custom Software Solutions", "Automation & Integrations"],
     poster: "/work/stellar-ai.webp",
     loop: "/work/stellar-ai.mp4",
     gradient: "from-[#1a1d20] to-[#3a3e43]",
@@ -171,7 +157,7 @@ export const caseStudies: CaseStudy[] = [
     number: "05",
     name: "DesignPro",
     slug: "designpro",
-    tags: ["UI/UX Design", "Website Design"],
+    tags: ["Web Design & Development"],
     poster: "/work/designpro.webp",
     loop: "/work/designpro.mp4",
     gradient: "from-[#111315] to-[#2b2e32]",
@@ -180,7 +166,7 @@ export const caseStudies: CaseStudy[] = [
     number: "06",
     name: "Wealth",
     slug: "wealth",
-    tags: ["Website Design", "Web Development", "AI Agents"],
+    tags: ["Web Design & Development", "Automation & Integrations"],
     poster: "/work/wealth.webp",
     loop: "/work/wealth.mp4",
     gradient: "from-[#15181a] to-[#34383d]",
@@ -202,14 +188,7 @@ export const clients = [
 export const footerColumns = [
   {
     title: "SERVICES",
-    links: [
-      "UI/UX Design",
-      "Website Design",
-      "Web Development",
-      "AI Development",
-      "AI Agents",
-      "Healthcare Apps",
-    ],
+    links: services.map((s) => s.label),
   },
   {
     title: "ATOM",

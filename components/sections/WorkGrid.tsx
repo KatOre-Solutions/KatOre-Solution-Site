@@ -19,15 +19,14 @@ function TagIcon({ tag }: { tag: string }) {
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
   };
-  if (t.includes("ui") || t.includes("ux"))
+  if (t.includes("automation") || t.includes("integration"))
     return (
       <svg {...common}>
-        <path d="M12 19l7-7 3 3-7 7-3-3z" />
-        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-        <path d="M2 2l7.586 7.586" />
+        <path d="M21 12a9 9 0 1 1-2.6-6.4" />
+        <path d="M21 3.5V9h-5.5" />
       </svg>
     );
-  if (t.includes("web dev") || t.includes("website dev"))
+  if (t.includes("software") || t.includes("app"))
     return (
       <svg {...common}>
         <path d="m18 16 4-4-4-4" />
@@ -35,32 +34,20 @@ function TagIcon({ tag }: { tag: string }) {
         <path d="m14.5 4-5 16" />
       </svg>
     );
-  if (t.includes("website") || t.includes("web"))
+  if (t.includes("hosting") || t.includes("support"))
+    return (
+      <svg {...common}>
+        <rect x="3" y="4" width="18" height="7" rx="2" />
+        <rect x="3" y="13" width="18" height="7" rx="2" />
+        <path d="M7 7.5h.01M7 16.5h.01" />
+      </svg>
+    );
+  if (t.includes("web") || t.includes("design"))
     return (
       <svg {...common}>
         <rect x="3" y="4" width="18" height="16" rx="2" />
         <path d="M3 9h18" />
         <path d="M7 6.5h.01M10 6.5h.01" />
-      </svg>
-    );
-  if (t.includes("agent"))
-    return (
-      <svg {...common}>
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5 19 19M19 5l-2.5 2.5M7.5 16.5 5 19" />
-      </svg>
-    );
-  if (t.includes("ai"))
-    return (
-      <svg {...common}>
-        <rect x="4" y="8" width="16" height="12" rx="2" />
-        <path d="M12 4v4M9 2h6M9 14h.01M15 14h.01" />
-      </svg>
-    );
-  if (t.includes("health"))
-    return (
-      <svg {...common}>
-        <path d="M3 12h4l2 5 4-10 2 5h6" />
       </svg>
     );
   return (
