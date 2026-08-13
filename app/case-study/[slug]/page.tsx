@@ -58,8 +58,15 @@ export default async function CaseStudyPage({
             ← Back to work
           </Link>
 
+          {/* preserveCase: these are the projects' own names. Forcing uppercase
+              turned GuardianCheck into GUARDIANCHECK and lost the camel case
+              the brand is written with. */}
           <div className="mt-10">
-            <PageHeading eyebrow={`Case Study ${cs.number}`} title={cs.name} />
+            <PageHeading
+              eyebrow={`Case Study ${cs.number}`}
+              title={cs.name}
+              preserveCase
+            />
           </div>
 
           {/* Attribution sits directly under the name, ahead of the services,

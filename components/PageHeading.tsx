@@ -27,9 +27,19 @@ function sizeFor(title: string): string {
 export default function PageHeading({
   eyebrow,
   title,
+  preserveCase = false,
 }: {
   eyebrow?: string;
   title: string;
+  /**
+   * Keep the title's own capitalisation instead of forcing it uppercase.
+   *
+   * For section names like Work or Contact, uppercase is the house style. For a
+   * proper noun it is a liability: "GuardianCheck" became "GUARDIANCHECK" and
+   * lost the camel case the brand is actually written with. Everything else
+   * about the heading is unchanged, so the pages still read as one system.
+   */
+  preserveCase?: boolean;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -60,9 +70,9 @@ export default function PageHeading({
         </p>
       ) : null}
       <h1
-        className={`select-none font-bold uppercase leading-[0.9] tracking-tight ${sizeFor(
-          title
-        )}`}
+        className={`select-none font-bold leading-[0.9] tracking-tight ${
+          preserveCase ? "" : "uppercase"
+        } ${sizeFor(title)}`}
       >
         <ScrambleText text={title} />
       </h1>
