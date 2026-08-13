@@ -57,9 +57,15 @@ export default function ClientsMarquee() {
         ))}
       </ul>
 
+      {/*
+        overflow-hidden here as well as on the rows: the inner plane is tilted
+        with rotateX under this perspective, and the near edge of a tilted plane
+        projects wider than its layout box. That sliver escaped the row clipping
+        and gave the home page 26px of horizontal scroll.
+      */}
       <div
         aria-hidden
-        className="relative mt-14"
+        className="relative mt-14 overflow-hidden"
         style={{ perspective: "800px" }}
       >
         <div style={{ transform: "rotateX(15deg)" }}>

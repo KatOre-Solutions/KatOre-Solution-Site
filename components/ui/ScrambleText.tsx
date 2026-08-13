@@ -1,8 +1,16 @@
+import { Fragment } from "react";
+
 /**
  * Renders text as per-character spans that `lib/scramble` can drive.
  *
- * Shared rather than redeclared: the hero and every page heading run the same
- * reveal, and three copies of this markup drifted apart once already.
+ * Characters are grouped into per word wrappers rather than emitted as one flat
+ * run. Every character is an inline-block, which gives the browser a line break
+ * opportunity between any two of them, so a flat run wraps mid word: "HOSTING
+ * AND ONGOIN / G SUPPORT". Wrapping each word in its own nowrap inline-block
+ * confines breaks to the real spaces between words.
+ *
+ * Shared rather than redeclared: the home hero and every page heading run the
+ * same reveal, and two copies of this markup drifted apart once already.
  */
 export default function ScrambleText({
   text,
@@ -11,19 +19,22 @@ export default function ScrambleText({
   text: string;
   className?: string;
 }) {
+  const words = text.split(" ");
+
   return (
     <span className={className}>
-      {text.split("").map((ch, i) => (
-        <span
-          key={i}
-          className="scramble-char inline-block"
-          data-final={ch}
-          // Spaces collapse to nothing once the glyph is swapped out, so they
-          // carry their own width.
-          style={ch === " " ? { width: "0.3em" } : undefined}
-        >
-          {ch === " " ? " " : ch}
-        </span>
+      {words.map((word, w) => (
+        <Fragment key={w}>
+          <span className="inline-block whitespace-nowrap">
+            {word.split("").map((ch, i) => (
+              <span key={i} className="scramble-char inline-block" data-final={ch}>
+                {ch}
+              </span>
+            ))}
+          </span>
+          {/* A real space, so the line may break here and only here. */}
+          {w < words.length - 1 ? " " : null}
+        </Fragment>
       ))}
     </span>
   );

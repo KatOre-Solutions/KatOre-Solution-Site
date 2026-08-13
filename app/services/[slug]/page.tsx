@@ -1,8 +1,30 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import ServiceDetail from "@/components/sections/ServiceDetail";
 import { serviceCards } from "@/lib/data";
+import { servicePages } from "@/lib/serviceContent";
 
 export function generateStaticParams() {
   return serviceCards.map((card) => ({ slug: card.slug }));
+}
+
+/** Only the five real services resolve; anything else is a 404 rather than a
+ *  de-slugged page for something we do not offer. */
+export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const content = servicePages[slug];
+  if (!content) return {};
+
+  return {
+    title: `${content.pageTitle} | Katore Solutions`,
+    description: content.intro,
+  };
 }
 
 export default async function ServicePage({
@@ -12,18 +34,8 @@ export default async function ServicePage({
 }) {
   const { slug } = await params;
   const card = serviceCards.find((c) => c.slug === slug);
+  const content = servicePages[slug];
+  if (!card || !content) notFound();
 
-  return (
-    <PlaceholderPage
-      eyebrow="Service"
-      title={card?.title ?? slug.replace(/-/g, " ")}
-      // The service's own description, rather than the "coming soon" line that
-      // used to sit here: the copy already exists on the home page deck, and a
-      // real answer beats a placeholder on a page people reach from the menu.
-      description={
-        card?.description ??
-        "Tell us what you are trying to build and we will come back to you."
-      }
-    />
-  );
+  return <ServiceDetail card={card} content={content} />;
 }

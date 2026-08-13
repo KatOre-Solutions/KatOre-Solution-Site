@@ -8,10 +8,24 @@ import { particleController } from "@/lib/particleController";
 import { LOGO_SPAN, fitScale, getLogoShape, getShapes } from "@/lib/particleShapes";
 import { scramble } from "@/lib/scramble";
 
-const stats = [
-  { value: 10, suffix: "+", label: "Projects Delivered" },
-  { value: 100, suffix: "%", label: "Client Satisfaction" },
-  { value: 24, suffix: "/7", label: "Support Available" },
+/**
+ * Two counted figures and one stated fact.
+ *
+ * The third slot read "24/7 Support Available", which directly contradicted the
+ * hosting service page: that page says we do not advertise round the clock
+ * cover or a guaranteed response time, because support is scoped per project.
+ * Support is genuinely ongoing, it is simply not a 24 hour promise, so the slot
+ * now says the true thing instead.
+ */
+const stats: {
+  count?: number;
+  suffix?: string;
+  text?: string;
+  label: string;
+}[] = [
+  { count: 10, suffix: "+", label: "Projects Delivered" },
+  { count: 100, suffix: "%", label: "Client Satisfaction" },
+  { text: "Ongoing", label: "Support Available" },
 ];
 
 function ArrowUpRight({ className = "" }: { className?: string }) {
@@ -173,12 +187,18 @@ export default function HeroSection() {
           <div className="hero-anim mt-16 flex flex-wrap gap-10">
             {stats.map((s) => (
               <div key={s.label}>
-                <div className="flex items-baseline text-3xl font-bold tabular-nums text-foreground md:text-4xl">
-                  <span className="stat-number" data-value={s.value}>
-                    0
-                  </span>
-                  <span>{s.suffix}</span>
-                </div>
+                {s.count !== undefined ? (
+                  <div className="flex items-baseline text-3xl font-bold tabular-nums text-foreground md:text-4xl">
+                    <span className="stat-number" data-value={s.count}>
+                      0
+                    </span>
+                    <span>{s.suffix}</span>
+                  </div>
+                ) : (
+                  <div className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                    {s.text}
+                  </div>
+                )}
                 <p className="mt-1 text-xs text-muted-foreground md:text-sm">
                   {s.label}
                 </p>
