@@ -18,6 +18,21 @@
   --cta: #111315; /* Primary CTA ground */
   --cta-hover: #34383d; /* Primary CTA hover */
 
+  /*
+   * Status accents — the only hues in an otherwise monochrome system, so colour
+   * here always carries meaning and is never decoration. Both text tones sit at
+   * ~5.6:1 on their own fills, deliberately close to --muted-foreground's 5.69:1
+   * on the page ground, so a status chip reads at the same visual weight as body
+   * copy rather than shouting over the metallic palette.
+   */
+  --status-live: #0f6b41; /* In Progress — active and ongoing */
+  --status-live-surface: #e7f4ed;
+  --status-live-border: #a9d9c0;
+
+  --status-concept: #9a4a06; /* Concept Development — exploratory, self-directed */
+  --status-concept-surface: #fdf1e4;
+  --status-concept-border: #e2a86b;
+
   /* Legacy token names kept so components need no sweeping rename; they now
      point into the metallic ramp instead of the old indigo one. */
   --accent: var(--silver);
@@ -52,12 +67,28 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --color-status-live: var(--status-live);
+  --color-status-live-surface: var(--status-live-surface);
+  --color-status-live-border: var(--status-live-border);
+  --color-status-concept: var(--status-concept);
+  --color-status-concept-surface: var(--status-concept-surface);
+  --color-status-concept-border: var(--status-concept-border);
   --font-sans:
     "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-* {
-  border-color: var(--border);
+/*
+ * Tailwind v3's preflight gave every element a default border colour; v4 dropped
+ * it, so this restores it. It has to sit in @layer base: an unlayered rule beats
+ * every layered utility regardless of specificity, so at the top level this
+ * quietly defeated all `border-<colour>` utilities — border-silver, the
+ * border-white/10 on the dark services band, and the status chips. It went
+ * unnoticed because --border and --card-border hold the same value.
+ */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 }
 
 html {

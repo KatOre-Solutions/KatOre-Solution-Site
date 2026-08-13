@@ -9,45 +9,19 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 const featured = caseStudies[0];
 
 /**
- * The `<KO/>` mark, drawn on the same 3.8:1 grid and proportions as the hero's
- * particle version (`logoMark` in lib/particleShapes.ts) so the two read as the
- * same mark. Keep the geometry here in sync with that generator.
+ * The wordmark is the brand in the bar — the `<KO/>` glyph lives on as the
+ * particle field's resting shape, so repeating it here only competed with it.
+ * Tracking tightens on the narrowest screens so the full name still fits
+ * alongside the menu button rather than being dropped, as it used to be.
  */
-function KoMark({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 380 100"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="butt"
-      strokeLinejoin="miter"
-      aria-hidden
-    >
-      {/* Outer chevrons */}
-      <path d="M64 7 12 50 64 93" strokeWidth="13" />
-      <path d="M316 7 368 50 316 93" strokeWidth="13" />
-      {/* K */}
-      <path d="M100 13v74M150 13 100 50l52 37" strokeWidth="15" />
-      {/* O */}
-      <circle cx="204" cy="50" r="37" strokeWidth="15" />
-      {/* Slash */}
-      <path d="M252 87 284 13" strokeWidth="15" />
-    </svg>
-  );
-}
-
 function Logo() {
   return (
     <Link
       href="/"
       aria-label="Katore Solutions — home"
-      className="flex items-center gap-3 text-foreground transition-opacity hover:opacity-80"
+      className="flex items-center text-foreground transition-opacity hover:opacity-80"
     >
-      <KoMark className="h-5 w-auto md:h-6" />
-      {/* The mark alone is already ~90px wide, so the wordmark stands down on
-          the narrowest screens rather than crowding the menu button. */}
-      <span className="hidden text-xs font-medium uppercase tracking-[0.25em] text-foreground/85 sm:inline">
+      <span className="text-xs font-semibold uppercase tracking-[0.16em] sm:text-sm sm:tracking-[0.22em]">
         Katore Solutions
       </span>
     </Link>

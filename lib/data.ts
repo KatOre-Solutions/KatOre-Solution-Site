@@ -102,116 +102,147 @@ export const services = serviceCards.map((card) => ({
   href: `/services/${card.slug}`,
 }));
 
+/**
+ * How Katore relates to a piece of work. Client engagements, Katore's own
+ * products and self-directed concepts all belong in the portfolio, but a
+ * visitor must never be able to mistake one for another — so this is rendered
+ * on every tile and every case-study page, not just stored.
+ */
+export type ProjectType = "Client Project" | "Katore Product" | "Concept Development";
+
 export type CaseStudy = {
   number: string;
   name: string;
   slug: string;
-  /** The services used to deliver the site; labels mirror `serviceCards`. */
+  /** Katore's actual relationship to the work. */
+  projectType: ProjectType;
+  /** The services Katore genuinely delivered; labels mirror `serviceCards`.
+   *  "Hosting & Support" asserts an active relationship, not merely that we
+   *  built the thing — only tag it where that is true today. */
   tags: string[];
-  /** Still frame, shown always. ~30–95KB WebP in /public/work. */
+  /** Live site, opened in a new tab from the case-study page. */
+  url: string;
+  /** What the project is, and what Katore actually contributed. Deliberately
+   *  free of invented metrics, outcomes and testimonials: if a claim cannot be
+   *  verified, it does not appear here. */
+  summary: string;
+  /** Set only while the work is not publicly complete. */
+  status?: string;
+  /** Still frame, shown always. ~30–50KB WebP in /public/work. */
   poster: string;
-  /** Muted loop, played on hover only. ~200–310KB MP4 in /public/work. */
+  /** Muted loop, played on hover only. ~180–245KB MP4 in /public/work. */
   loop: string;
-  /** Fallback surface for places that render a tile without the preview. */
+  /** Fallback surface for places that render a tile without the preview.
+   *  Sampled from the poster, then spread so the gradient actually reads. */
   gradient: string;
 };
 
+/**
+ * Real work only. GuardianCheck leads because it is the most recent and the
+ * fullest demonstration of Custom Software Solutions — `Navbar` spotlights
+ * `caseStudies[0]` as "our latest work", and `WorkGrid` gives the first two
+ * entries the larger cells.
+ */
 export const caseStudies: CaseStudy[] = [
   {
     number: "01",
-    name: "Space Voyage",
-    slug: "space-voyage",
-    tags: ["Web Design & Development", "Hosting & Support"],
-    poster: "/work/space-voyage.webp",
-    loop: "/work/space-voyage.mp4",
-    gradient: "from-[#111315] to-[#3a3e43]",
+    name: "GuardianCheck",
+    slug: "guardiancheck",
+    projectType: "Katore Product",
+    tags: [
+      "Custom Software Solutions",
+      "Automation & Integrations",
+      "Hosting & Support",
+    ],
+    url: "https://guardiancheck.co.za/",
+    summary:
+      "GuardianCheck is Katore's own product: a child check-in and safeguarding platform for churches. It covers secure drop-off and pickup — QR-code check-in, guardian verification, room capacity tracking and attendance reporting — so volunteers spend less time on admin and parents know where their children are. Katore designed and built it end to end as a React and Vite application on Firebase, with multi-tenant church accounts, role-based permissions and PayFast billing, and continues to host and maintain it.",
+    poster: "/work/guardiancheck.webp",
+    loop: "/work/guardiancheck.mp4",
+    gradient: "from-[#1a1f26] to-[#333a44]",
   },
   {
     number: "02",
-    name: "CodeNest",
-    slug: "codenest",
+    name: "Hey Beautiful",
+    slug: "hey-beautiful",
+    projectType: "Client Project",
     tags: ["Web Design & Development", "Custom Software Solutions"],
-    poster: "/work/codenest.webp",
-    loop: "/work/codenest.mp4",
-    gradient: "from-[#2b2e32] to-[#111315]",
+    url: "https://heybeautifulwellness.co.za/",
+    summary:
+      "Hey Beautiful is a women's wellness supplement brand. Katore designed and built its storefront as a custom Next.js application with Shopify as a headless commerce backend, giving the brand full control of the shopping experience while Shopify handles catalogue and checkout. The project is still in active development ahead of its public launch.",
+    status: "In Progress",
+    poster: "/work/hey-beautiful.webp",
+    loop: "/work/hey-beautiful.mp4",
+    gradient: "from-[#201d1a] to-[#3a332c]",
   },
   {
     number: "03",
-    name: "Vex Ventures",
-    slug: "vex-ventures",
-    tags: ["Web Design & Development"],
-    poster: "/work/vex-ventures.webp",
-    loop: "/work/vex-ventures.mp4",
-    gradient: "from-[#34383d] to-[#15181a]",
+    name: "New Lease of Life Foundation",
+    slug: "new-lease-of-life",
+    projectType: "Client Project",
+    tags: [
+      "Web Design & Development",
+      "Automation & Integrations",
+      "Hosting & Support",
+    ],
+    url: "https://newleaseoflifefoundation.org/",
+    summary:
+      "New Lease of Life Foundation is a Pretoria non-profit helping homeless young people build sustainable futures through technical training, life skills and entrepreneurship programmes. Katore designed and built the site and implemented the paths that turn visitors into supporters — the donation flow, the WhatsApp volunteer signup, and the events and fundraiser pages — and hosts and maintains it.",
+    poster: "/work/new-lease-of-life.webp",
+    loop: "/work/new-lease-of-life.mp4",
+    gradient: "from-[#171a1c] to-[#2c3439]",
   },
   {
     number: "04",
-    name: "Stellar AI",
-    slug: "stellar-ai",
-    tags: ["Custom Software Solutions", "Automation & Integrations"],
-    poster: "/work/stellar-ai.webp",
-    loop: "/work/stellar-ai.mp4",
-    gradient: "from-[#1a1d20] to-[#3a3e43]",
+    name: "Letsha La Bophelo",
+    slug: "letsha-la-bophelo",
+    projectType: "Client Project",
+    tags: ["Web Design & Development", "Hosting & Support"],
+    url: "https://letshalabophelo.org.za/",
+    summary:
+      "Letsha La Bophelo has run retreats, skills training and community empowerment programmes in South Africa since 1999. Katore designed and built its site — programmes, projects, impact and partnership pages with donation and enquiry paths — and hosts and maintains it.",
+    poster: "/work/letsha-la-bophelo.webp",
+    loop: "/work/letsha-la-bophelo.mp4",
+    gradient: "from-[#1e1c15] to-[#38332a]",
   },
   {
     number: "05",
-    name: "DesignPro",
-    slug: "designpro",
+    name: "Mintirho Healthcare",
+    slug: "mintirho",
+    projectType: "Client Project",
     tags: ["Web Design & Development"],
-    poster: "/work/designpro.webp",
-    loop: "/work/designpro.mp4",
-    gradient: "from-[#111315] to-[#2b2e32]",
+    // The bare domain answers 200 with an empty body; only /index.html renders.
+    url: "https://mintirhohcs.co.za/index.html",
+    summary:
+      "Mintirho Healthcare and Consulting Services is an occupational health provider running medical surveillance and workplace wellness programmes for South African employers. Katore designed and built the site from scratch, presenting its compliance services alongside on-site offerings like the IV lounge and smoothie bike, with clear routes to book an appointment.",
+    poster: "/work/mintirho.webp",
+    loop: "/work/mintirho.mp4",
+    gradient: "from-[#1c2226] to-[#2f383d]",
   },
   {
     number: "06",
-    name: "Wealth",
-    slug: "wealth",
-    tags: ["Web Design & Development", "Automation & Integrations"],
-    poster: "/work/wealth.webp",
-    loop: "/work/wealth.mp4",
-    gradient: "from-[#15181a] to-[#34383d]",
+    name: "Y68°",
+    slug: "y68",
+    projectType: "Concept Development",
+    tags: ["Web Design & Development"],
+    url: "https://basketball-lake.vercel.app/",
+    summary:
+      "Y68° is a self-directed concept, not client work. Katore built it to explore what a motion-led product site can do in the browser: a real-time 3D ball rendered with three.js, scroll-driven choreography with GSAP, and a bold editorial layout. The street-ball premise is a design exercise — the product, its players and its statistics are illustrative, not real.",
+    poster: "/work/y68.webp",
+    loop: "/work/y68.mp4",
+    gradient: "from-[#26251f] to-[#3a3833]",
   },
 ];
 
+/**
+ * Genuine client organisations only — the ones represented by a `Client Project`
+ * above. GuardianCheck is Katore's own product and Y68° is a concept, so neither
+ * belongs in a list of people who hired us. Katore is early-stage; a short honest
+ * list is the point.
+ */
 export const clients = [
-  "Lowe's",
-  "Cognizant",
-  "Trimble",
-  "e2open",
-  "Toyota",
-  "OWASP",
-  "Injazat",
-];
-
-/** @deprecated Unused since the footer link columns were replaced by the
- *  "Technologies We Use" orbit. Kept only if those columns are ever restored. */
-export const footerColumns = [
-  {
-    title: "SERVICES",
-    links: services.map((s) => s.label),
-  },
-  {
-    title: "ATOM",
-    links: [
-      "Atom Enterprise",
-      "Atom Agentic",
-      "Atom IntentIQ",
-      "Compare Atom",
-      "Atom GIS",
-      "Atom Red Team",
-      "Website Auditor",
-    ],
-  },
-  {
-    title: "RESOURCES",
-    links: [
-      "Case Studies",
-      "Open Antimatter",
-      "Clinix AI Platform",
-      "Generative UI",
-      "Sentiment AI",
-      "Lie Detector",
-      "Contact",
-    ],
-  },
+  "Hey Beautiful",
+  "New Lease of Life Foundation",
+  "Letsha La Bophelo",
+  "Mintirho Healthcare",
 ];

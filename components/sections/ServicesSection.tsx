@@ -10,6 +10,7 @@ import {
   SERVICES_SPLIT_MIN,
   fitScale,
   getLogoShape,
+  getShapeSizeFactors,
   getShapes,
   pxToWorldX,
   servicesScale,
@@ -102,6 +103,7 @@ export default function ServicesSection() {
     }
 
     const shapes = getShapes();
+    const sizeFactors = getShapeSizeFactors();
     const logo = getLogoShape();
     const n = serviceCards.length;
 
@@ -152,12 +154,19 @@ export default function ServicesSection() {
     };
 
     const applyCloud = () => {
+      // Blended on the same t as the morph itself, so the cloud holds one
+      // apparent size the whole way through instead of shrinking after the
+      // opening sphere. See `getShapeSizeFactors`.
+      const sizeFix =
+        sizeFactors[view.index] +
+        (sizeFactors[view.next] - sizeFactors[view.index]) * view.morphT;
+
       particleController.set({
         shapeA: shapes[view.index],
         shapeB: shapes[view.next],
         morphT: view.morphT,
         offsetX: cloudOffsetX(),
-        scale: servicesScale(),
+        scale: servicesScale() * sizeFix,
         opacity: 1 - view.exitFade * 0.88,
         spin: 0.12,
         tone: view.band, // platinum ramp while the dark band is up

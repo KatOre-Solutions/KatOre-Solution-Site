@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { caseStudies } from "@/lib/data";
+import { ProjectTypeBadge, StatusBadge } from "@/components/ui/ProjectMeta";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 type QuickTo = (value: number) => void;
@@ -176,9 +177,13 @@ export default function WorkGrid() {
               </Link>
 
               <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <h2 className="text-xl font-medium tracking-tight md:text-2xl">
-                  {cs.name}
-                </h2>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                  <h2 className="text-xl font-medium tracking-tight md:text-2xl">
+                    {cs.name}
+                  </h2>
+                  <ProjectTypeBadge projectType={cs.projectType} />
+                  {cs.status ? <StatusBadge status={cs.status} /> : null}
+                </div>
                 <div className="flex flex-wrap items-center gap-2">
                   {cs.tags.map((tag) => (
                     <span

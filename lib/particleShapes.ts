@@ -301,6 +301,57 @@ export function getShapes(): Float32Array[] {
 }
 
 /**
+ * How much room a shape needs on screen, measured from the buffer so editing a
+ * glyph cannot silently change how big it reads.
+ *
+ * The cloud spins about Y, so a shape's widest moment is not its x extent but
+ * its radius in the XZ plane — a cube measured across its faces looks 28%
+ * smaller than it really is, then sweeps out to its diagonal as it turns and
+ * runs off the screen edges. Taking the XZ radius against the y extent gives
+ * the smallest upright cylinder that contains the shape, which is invariant
+ * under that spin. (The mouse tilt on X is small and bounded, so it is ignored.)
+ */
+function spinSafeHalfExtent(buf: Float32Array): number {
+  let maxRadiusSq = 0;
+  let maxY = 0;
+  for (let i = 0; i < buf.length; i += 3) {
+    const x = buf[i];
+    const z = buf[i + 2];
+    const radiusSq = x * x + z * z;
+    if (radiusSq > maxRadiusSq) maxRadiusSq = radiusSq;
+    const y = Math.abs(buf[i + 1]);
+    if (y > maxY) maxY = y;
+  }
+  return Math.max(Math.sqrt(maxRadiusSq), maxY);
+}
+
+/**
+ * Per-shape multipliers that hold the cloud at one apparent size across the
+ * whole Services morph.
+ *
+ * The sphere fills its full 2·RADIUS extent, but the glyphs are sampled from a
+ * canvas they only partly fill — `</>` reaches about 70% as far, the chart
+ * about 72%. At a single uniform scale the section therefore opens on a big
+ * confident sphere and then visibly shrinks for every card after it. Each shape
+ * carries a factor that normalises it back to the sphere, so the cloud keeps
+ * the presence it has on the first card all the way through.
+ *
+ * The sphere is the reference and so is always 1 — the opening shape is the one
+ * whose size everything else is being matched to, and it must not move.
+ *
+ * Only the Services section applies these; the hero and the exit-to-logo settle
+ * use their own `fitScale`, so leaving the section returns the cloud to normal.
+ */
+let sizeFactorCache: number[] | null = null;
+export function getShapeSizeFactors(): number[] {
+  if (sizeFactorCache) return sizeFactorCache;
+  const extents = getShapes().map(spinSafeHalfExtent);
+  const reference = extents[0] || 1; // the opening sphere sets the target size
+  sizeFactorCache = extents.map((e) => (e > 0 ? reference / e : 1));
+  return sizeFactorCache;
+}
+
+/**
  * Per-point colour, fixed for the life of the cloud so points keep their tone
  * through every morph.
  *

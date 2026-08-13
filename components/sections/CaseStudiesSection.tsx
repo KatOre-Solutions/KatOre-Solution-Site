@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import { caseStudies, type CaseStudy } from "@/lib/data";
+import { ProjectTypeBadge, StatusBadge } from "@/components/ui/ProjectMeta";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 /** How far each row drifts across the full scroll of the section, in px. */
@@ -54,15 +55,20 @@ function PreviewTile({ project }: { project: CaseStudy }) {
           />
         </div>
 
-        {/* Caption carries the services used, always visible rather than
-            hover-only — the strip is in motion and half the audience is on
-            touch, where a hover state never fires. */}
+        {/* Caption carries the attribution and the services used, always
+            visible rather than hover-only — the strip is in motion and half the
+            audience is on touch, where a hover state never fires. Attribution
+            rides with the name so a tile can never be read out of context. */}
         <div className="flex items-start justify-between gap-3 border-t border-card-border px-4 py-3">
           <div className="min-w-0">
             <p className="truncate text-sm font-medium text-foreground">
               {project.name}
             </p>
-            <p className="mt-1 truncate text-xs text-muted-foreground">
+            <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+              <ProjectTypeBadge projectType={project.projectType} />
+              {project.status ? <StatusBadge status={project.status} /> : null}
+            </div>
+            <p className="mt-1.5 truncate text-xs text-muted-foreground">
               {project.tags.join(" · ")}
             </p>
           </div>
@@ -115,9 +121,11 @@ export default function CaseStudiesSection() {
   return (
     <section ref={sectionRef} className="relative overflow-hidden py-24 md:py-32">
       <div className="mx-auto max-w-[var(--w-main)] px-5 md:px-8">
+        {/* No "proven results" or "measurable impact" claims here: we publish no
+            metrics to back them, and the work speaks for itself. */}
         <SectionHeading
           title="Case Studies"
-          subtitle="Proven results, measurable impact—explore the transformations we've delivered."
+          subtitle="Client work, our own products, and the concepts we build to push what's possible."
         />
       </div>
 
