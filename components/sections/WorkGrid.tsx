@@ -3,7 +3,11 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { caseStudies } from "@/lib/data";
-import { ProjectTypeBadge, StatusBadge } from "@/components/ui/ProjectMeta";
+import {
+  CategoryBadge,
+  ProjectTypeBadge,
+  StatusBadge,
+} from "@/components/ui/ProjectMeta";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 type QuickTo = (value: number) => void;
@@ -182,6 +186,7 @@ export default function WorkGrid() {
                     {cs.name}
                   </h2>
                   <ProjectTypeBadge projectType={cs.projectType} />
+                  <CategoryBadge category={cs.category} />
                   {cs.status ? <StatusBadge status={cs.status} /> : null}
                 </div>
                 <div className="flex flex-wrap items-center gap-2">

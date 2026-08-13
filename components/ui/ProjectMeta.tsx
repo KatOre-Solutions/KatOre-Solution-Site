@@ -42,6 +42,28 @@ export function ProjectTypeBadge({
  * the filled dot borrows the convention people already read as active — the
  * same signal a build indicator or presence dot uses.
  */
+/**
+ * What kind of build it is: SaaS platform, ecommerce, marketing site, motion
+ * site. Carries the sapphire accent so the category reads at a glance as its
+ * own axis, distinct from the attribution fill beside it and from the outlined
+ * service pills below. It was neutral grey first and simply disappeared.
+ */
+export function CategoryBadge({
+  category,
+  className = "",
+}: {
+  category: string;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`inline-flex shrink-0 items-center rounded-full border border-category-border bg-category-surface px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-category ${className}`}
+    >
+      {category}
+    </span>
+  );
+}
+
 export function StatusBadge({
   status,
   className = "",

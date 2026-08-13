@@ -11,9 +11,9 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Katore Solutions — Building Digital Solutions That Matter",
+  title: "Katore Solutions | Building Digital Solutions That Matter",
   description:
-    "We empower organizations with AI that turns complex challenges into real-world outcomes.",
+    "An engineering led technology company. We design and build websites, software and digital systems that solve real business problems and create lasting value.",
 };
 
 export default function RootLayout({

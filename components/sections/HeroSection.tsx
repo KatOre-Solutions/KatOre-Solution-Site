@@ -2,13 +2,14 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import ScrambleText from "@/components/ui/ScrambleText";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { particleController } from "@/lib/particleController";
 import { LOGO_SPAN, fitScale, getLogoShape, getShapes } from "@/lib/particleShapes";
 import { scramble } from "@/lib/scramble";
 
 const stats = [
-  { value: 50, suffix: "+", label: "Projects Delivered" },
+  { value: 10, suffix: "+", label: "Projects Delivered" },
   { value: 100, suffix: "%", label: "Client Satisfaction" },
   { value: 24, suffix: "/7", label: "Support Available" },
 ];
@@ -27,24 +28,6 @@ function ArrowUpRight({ className = "" }: { className?: string }) {
       <path d="M7 17 17 7" />
       <path d="M8 7h9v9" />
     </svg>
-  );
-}
-
-/** Renders text as per-character spans the scramble effect can drive. */
-function ScrambleText({ text, className = "" }: { text: string; className?: string }) {
-  return (
-    <span className={className}>
-      {text.split("").map((ch, i) => (
-        <span
-          key={i}
-          className="scramble-char inline-block"
-          data-final={ch}
-          style={ch === " " ? { width: "0.3em" } : undefined}
-        >
-          {ch === " " ? " " : ch}
-        </span>
-      ))}
-    </span>
   );
 }
 
@@ -80,6 +63,8 @@ export default function HeroSection() {
     apply();
 
     if (prefersReducedMotion()) {
+      // The counters start at 0 in the markup, so without the tween they have
+      // to be written out or every figure reads as zero.
       rootRef.current
         ?.querySelectorAll<HTMLElement>(".stat-number")
         .forEach((el) => (el.textContent = el.dataset.value ?? "0"));
@@ -166,8 +151,8 @@ export default function HeroSection() {
           </h1>
 
           <p className="hero-anim mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-            We empower organizations with AI that turns complex challenges into
-            real-world outcomes.
+            We design and build websites, software and digital systems that
+            solve real business problems and create lasting value.
           </p>
 
           <div className="hero-anim mt-8">
@@ -180,7 +165,11 @@ export default function HeroSection() {
             </Link>
           </div>
 
-          {/* Stats */}
+          {/* Capabilities. Set at text-lg rather than the display size the old
+              counters used: a number can carry 4xl on three characters, a
+              phrase at that size would run the row onto four lines. Held at one
+              size across breakpoints too — at text-xl the longest title wrapped
+              on desktop only, leaving the three captions off a shared baseline. */}
           <div className="hero-anim mt-16 flex flex-wrap gap-10">
             {stats.map((s) => (
               <div key={s.label}>

@@ -396,7 +396,7 @@ export default function ServicesSection() {
           <div className="md:pl-[38%]">
             <SectionHeading
               title="Our Services"
-              subtitle="We offer comprehensive digital solutions that transform your business and drive innovation across every touchpoint."
+              subtitle="We start with the problem, then design and build the technology that solves it. From a first website to the systems a business runs on."
               onDark
             />
           </div>

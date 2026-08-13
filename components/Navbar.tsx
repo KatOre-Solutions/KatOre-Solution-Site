@@ -18,7 +18,7 @@ function Logo() {
   return (
     <Link
       href="/"
-      aria-label="Katore Solutions — home"
+      aria-label="Katore Solutions, home"
       className="flex items-center text-foreground transition-opacity hover:opacity-80"
     >
       <span className="text-xs font-semibold uppercase tracking-[0.16em] sm:text-sm sm:tracking-[0.22em]">
@@ -182,6 +182,10 @@ export default function Navbar() {
               </p>
               <Link
                 href={`/case-study/${featured.slug}`}
+                // The navbar persists across navigation, so nothing unmounts
+                // the panel on its own; without this it stays open over the
+                // page the visitor just asked for.
+                onClick={() => setOpen(false)}
                 className="group block overflow-hidden rounded-xl border border-card-border"
               >
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-platinum">
@@ -207,6 +211,7 @@ export default function Navbar() {
                 <Link
                   key={s.href}
                   href={s.href}
+                  onClick={() => setOpen(false)}
                   className="group flex items-center justify-between rounded-lg px-3 py-2.5 text-sm text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
                 >
                   {s.label}

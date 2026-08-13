@@ -4,7 +4,11 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import { caseStudies, type CaseStudy } from "@/lib/data";
-import { ProjectTypeBadge, StatusBadge } from "@/components/ui/ProjectMeta";
+import {
+  CategoryBadge,
+  ProjectTypeBadge,
+  StatusBadge,
+} from "@/components/ui/ProjectMeta";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 /** How far each row drifts across the full scroll of the section, in px. */
@@ -66,10 +70,11 @@ function PreviewTile({ project }: { project: CaseStudy }) {
             </p>
             <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
               <ProjectTypeBadge projectType={project.projectType} />
+              <CategoryBadge category={project.category} />
               {project.status ? <StatusBadge status={project.status} /> : null}
             </div>
             <p className="mt-1.5 truncate text-xs text-muted-foreground">
-              {project.tags.join(" · ")}
+              {project.tags.join(", ")}
             </p>
           </div>
           <span className="mt-0.5 shrink-0 text-xs tabular-nums text-silver">

@@ -46,8 +46,8 @@ export default function CtaSection() {
 
           <div className="relative z-10 mx-auto max-w-3xl">
             <h2 className="text-3xl font-medium leading-tight tracking-tight text-white sm:text-4xl md:text-5xl xl:text-6xl">
-              We turn bold ideas into{" "}
-              <span className="font-bold">powerful digital realities.</span>
+              Every solution starts with{" "}
+              <span className="font-bold">a problem worth solving.</span>
             </h2>
 
             <div className="mt-10">

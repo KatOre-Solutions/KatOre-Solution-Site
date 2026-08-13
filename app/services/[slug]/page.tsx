@@ -1,8 +1,8 @@
 import PlaceholderPage from "@/components/PlaceholderPage";
-import { services } from "@/lib/data";
+import { serviceCards } from "@/lib/data";
 
 export function generateStaticParams() {
-  return services.map((s) => ({ slug: s.href.split("/").pop()! }));
+  return serviceCards.map((card) => ({ slug: card.slug }));
 }
 
 export default async function ServicePage({
@@ -11,14 +11,19 @@ export default async function ServicePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const match = services.find((s) => s.href.endsWith(slug));
-  const title = match?.label ?? slug.replace(/-/g, " ");
+  const card = serviceCards.find((c) => c.slug === slug);
 
   return (
     <PlaceholderPage
       eyebrow="Service"
-      title={title}
-      description="Detailed service offering page coming soon. Reach out to discuss your project."
+      title={card?.title ?? slug.replace(/-/g, " ")}
+      // The service's own description, rather than the "coming soon" line that
+      // used to sit here: the copy already exists on the home page deck, and a
+      // real answer beats a placeholder on a page people reach from the menu.
+      description={
+        card?.description ??
+        "Tell us what you are trying to build and we will come back to you."
+      }
     />
   );
 }

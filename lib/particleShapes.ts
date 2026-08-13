@@ -281,14 +281,41 @@ export function chart(): Float32Array {
 }
 
 /**
- * Ordered shapes aligned to the four `serviceCards` (lib/data.ts):
- * Web · Custom Software · Automation · Hosting.
+ * Stacked isometric slabs: a product assembled in layers, from concept through
+ * to release. Drawn as outlines rather than solids for the same reason the cube
+ * is a wireframe — filled shapes average into a blob at this point density.
+ */
+export function layers(): Float32Array {
+  return glyph((ctx, s) => {
+    ctx.lineWidth = 15;
+    ctx.lineJoin = "round";
+    const cx = s * 0.5;
+    const halfW = s * 0.3;
+    const halfH = s * 0.12;
+    for (const y of [s * 0.31, s * 0.5, s * 0.69]) {
+      ctx.beginPath();
+      ctx.moveTo(cx, y - halfH);
+      ctx.lineTo(cx + halfW, y);
+      ctx.lineTo(cx, y + halfH);
+      ctx.lineTo(cx - halfW, y);
+      ctx.closePath();
+      ctx.stroke();
+    }
+  });
+}
+
+/**
+ * Ordered shapes, index aligned to `serviceCards` (lib/data.ts):
+ * Web, Custom Software, Automation, Product Development, Hosting.
+ *
+ * The count must match `serviceCards` exactly — the Services section indexes
+ * both arrays with the same cursor, so a missing shape renders nothing.
  *
  * The sphere stays first because the hero dissolves the `<KO/>` mark into
  * `shapes[0]`, so Services opens on a shape the hero has already settled onto.
  */
 export function buildShapes(): Float32Array[] {
-  return [sphere(), codeBrackets(), chart(), cube()];
+  return [sphere(), codeBrackets(), chart(), layers(), cube()];
 }
 
 // Build once in the browser and share the same buffers across the field, hero,
@@ -419,8 +446,8 @@ export function getColors(tone: Tone): Float32Array {
   return c;
 }
 
-/** The hero's opening shape — kept out of `getShapes()` so the four service
- *  cards stay aligned to their own indices. */
+/** The hero's opening shape, kept out of `getShapes()` so the service cards
+ *  stay aligned to their own indices. */
 let logoCache: Float32Array | null = null;
 export function getLogoShape(): Float32Array {
   if (typeof document === "undefined") return logoMark();

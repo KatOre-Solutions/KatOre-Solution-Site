@@ -1,13 +1,13 @@
 import PlaceholderPage from "@/components/PlaceholderPage";
 
-export const metadata = { title: "Contact — Katore Solutions" };
+export const metadata = { title: "Contact | Katore Solutions" };
 
 export default function ContactPage() {
   return (
     <PlaceholderPage
       eyebrow="Contact"
       title="Start Your Project"
-      description="Tell us about your challenge and we'll get back within 24 hours. Reach us at katoresolution@gmail.com."
+      description="Tell us the problem you are trying to solve and we will come back to you. Reach us at katoresolution@gmail.com."
     />
   );
 }

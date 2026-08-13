@@ -70,10 +70,12 @@ export default function Footer() {
 
           <div className="md:text-right">
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              Johannesburg, SA — Local Time (SAST · UTC+2)
+              Johannesburg, South Africa. Local time (SAST, UTC+2)
             </p>
+            {/* Non breaking space until the client clock mounts, so the row
+                keeps its height without printing a dashed placeholder. */}
             <p className="mt-3 text-5xl font-bold tabular-nums text-foreground">
-              {time || "--:--:-- --"}
+              {time || " "}
             </p>
           </div>
         </div>

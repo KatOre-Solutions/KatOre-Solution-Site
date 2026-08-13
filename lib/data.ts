@@ -26,9 +26,9 @@ export const serviceCards: ServiceCard[] = [
     number: "01",
     title: "Web Design & Development",
     slug: "web-design-development",
-    subtitle: "Digital Experiences",
+    subtitle: "Digital Presence",
     description:
-      "Modern, responsive websites that represent your brand, engage your audience, and turn visitors into customers.",
+      "Modern, responsive websites designed to strengthen your digital presence and carry the goals of the business behind them.",
     items: [
       "Website Design",
       "Responsive Development",
@@ -43,9 +43,9 @@ export const serviceCards: ServiceCard[] = [
     number: "02",
     title: "Custom Software Solutions",
     slug: "custom-software",
-    subtitle: "Software Development",
+    subtitle: "Software Engineering",
     description:
-      "Purpose-built software designed around your business — solving complex problems and streamlining how you operate.",
+      "Software and internal systems built around how your business actually operates, rather than bending your work to fit a product someone else designed.",
     items: [
       "Web Applications",
       "Mobile Applications",
@@ -60,13 +60,13 @@ export const serviceCards: ServiceCard[] = [
     number: "03",
     title: "Automation & Integrations",
     slug: "automation-integrations",
-    subtitle: "Digital Automation",
+    subtitle: "Connected Systems",
     description:
-      "Smarter workflows that connect your systems, automate repetitive tasks, and help your business run more efficiently.",
+      "Connecting the tools you already run so information moves between them on its own and the repetitive manual work disappears.",
     items: [
       "Workflow Automation",
       "System Integrations",
-      "Third-Party APIs",
+      "Third Party APIs",
       "Data Processing",
       "Process Automation",
     ],
@@ -75,11 +75,28 @@ export const serviceCards: ServiceCard[] = [
   },
   {
     number: "04",
+    title: "Product Development",
+    slug: "product-development",
+    subtitle: "Idea to Launch",
+    description:
+      "Turning an idea into a working digital product: shaping the concept, planning the build, then developing and releasing it.",
+    items: [
+      "Product Discovery",
+      "Technical Planning",
+      "Prototypes",
+      "MVP Development",
+      "Iteration & Release",
+    ],
+    tools: ["React", "TypeScript", "Node.js", "Firebase", "Figma"],
+    accent: "#1a1d20",
+  },
+  {
+    number: "05",
     title: "Hosting & Support",
     slug: "hosting-support",
-    subtitle: "Digital Infrastructure",
+    subtitle: "Ongoing Care",
     description:
-      "Reliable infrastructure and ongoing technical support that keeps your sites, apps, and domains running smoothly.",
+      "Reliable hosting, maintenance, updates and technical support that keep everything running long after launch day.",
     items: [
       "Website Hosting",
       "Domain Management",
@@ -87,7 +104,7 @@ export const serviceCards: ServiceCard[] = [
       "Website Maintenance",
       "Technical Support",
     ],
-    tools: ["Netlify", "GoDaddy", "Zoho Mail", "DNS", "SSL"],
+    tools: ["Netlify", "Vercel", "GoDaddy", "DNS", "SSL"],
     accent: "#111315",
   },
 ];
@@ -116,6 +133,12 @@ export type CaseStudy = {
   slug: string;
   /** Katore's actual relationship to the work. */
   projectType: ProjectType;
+  /**
+   * What kind of build this is: a SaaS platform, a storefront, a website.
+   * Deliberately separate from `tags`, which say what Katore did, and from
+   * `projectType`, which says whose work it is.
+   */
+  category: string;
   /** The services Katore genuinely delivered; labels mirror `serviceCards`.
    *  "Hosting & Support" asserts an active relationship, not merely that we
    *  built the thing — only tag it where that is true today. */
@@ -135,6 +158,12 @@ export type CaseStudy = {
   /** Fallback surface for places that render a tile without the preview.
    *  Sampled from the poster, then spread so the gradient actually reads. */
   gradient: string;
+  /**
+   * Screens from inside the product, shown on the case study page. Intrinsic
+   * dimensions travel with each one so the layout can reserve the right space
+   * and never upscale a capture past its native width.
+   */
+  gallery?: { src: string; alt: string; width: number; height: number }[];
 };
 
 /**
@@ -149,6 +178,7 @@ export const caseStudies: CaseStudy[] = [
     name: "GuardianCheck",
     slug: "guardiancheck",
     projectType: "Katore Product",
+    category: "SaaS Platform",
     tags: [
       "Custom Software Solutions",
       "Automation & Integrations",
@@ -156,16 +186,55 @@ export const caseStudies: CaseStudy[] = [
     ],
     url: "https://guardiancheck.co.za/",
     summary:
-      "GuardianCheck is Katore's own product: a child check-in and safeguarding platform for churches. It covers secure drop-off and pickup — QR-code check-in, guardian verification, room capacity tracking and attendance reporting — so volunteers spend less time on admin and parents know where their children are. Katore designed and built it end to end as a React and Vite application on Firebase, with multi-tenant church accounts, role-based permissions and PayFast billing, and continues to host and maintain it.",
+      "GuardianCheck is Katore's own product, a safeguarding platform for churches. It secures the moment a child is signed in and collected, using QR codes, guardian verification, live room capacity and attendance reporting, so volunteers spend less time on administration and parents always know where their children are. Katore designed and built it end to end as a React and Vite application on Firebase, with a separate account for every church, permissions by role, and billing through PayFast, and continues to host and maintain it.",
     poster: "/work/guardiancheck.webp",
     loop: "/work/guardiancheck.mp4",
     gradient: "from-[#1a1f26] to-[#333a44]",
+    gallery: [
+      {
+        src: "/work/guardiancheck/01.webp",
+        alt: "Admin control centre showing live counts for parents, children, rooms and volunteers, with attendance report export",
+        width: 1100,
+        height: 559,
+      },
+      {
+        src: "/work/guardiancheck/02.webp",
+        alt: "Volunteer station scanning a child QR code, with a recent check in activity feed",
+        width: 1100,
+        height: 761,
+      },
+      {
+        src: "/work/guardiancheck/03.webp",
+        alt: "Parent dashboard on mobile showing a child profile, allergy alert, room status and downloadable QR identity card",
+        width: 376,
+        height: 781,
+      },
+      {
+        src: "/work/guardiancheck/04.webp",
+        alt: "Security settings with a masked admin override PIN, alongside room and user management",
+        width: 1100,
+        height: 681,
+      },
+      {
+        src: "/work/guardiancheck/05.webp",
+        alt: "Church settings for branding, colours, logo and subscription",
+        width: 1100,
+        height: 664,
+      },
+      {
+        src: "/work/guardiancheck/06.webp",
+        alt: "Church registration screen for starting a free trial",
+        width: 1100,
+        height: 727,
+      },
+    ],
   },
   {
     number: "02",
     name: "Hey Beautiful",
     slug: "hey-beautiful",
     projectType: "Client Project",
+    category: "Ecommerce",
     tags: ["Web Design & Development", "Custom Software Solutions"],
     url: "https://heybeautifulwellness.co.za/",
     summary:
@@ -180,6 +249,7 @@ export const caseStudies: CaseStudy[] = [
     name: "New Lease of Life Foundation",
     slug: "new-lease-of-life",
     projectType: "Client Project",
+    category: "Marketing Website",
     tags: [
       "Web Design & Development",
       "Automation & Integrations",
@@ -187,7 +257,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     url: "https://newleaseoflifefoundation.org/",
     summary:
-      "New Lease of Life Foundation is a Pretoria non-profit helping homeless young people build sustainable futures through technical training, life skills and entrepreneurship programmes. Katore designed and built the site and implemented the paths that turn visitors into supporters — the donation flow, the WhatsApp volunteer signup, and the events and fundraiser pages — and hosts and maintains it.",
+      "New Lease of Life Foundation is a Pretoria nonprofit helping homeless young people build sustainable futures through technical training, life skills and entrepreneurship programmes. Katore designed and built the site, then implemented the paths that turn a visitor into a supporter: the donation flow, the WhatsApp volunteer signup, and the events and fundraiser pages. Katore hosts and maintains it.",
     poster: "/work/new-lease-of-life.webp",
     loop: "/work/new-lease-of-life.mp4",
     gradient: "from-[#171a1c] to-[#2c3439]",
@@ -197,10 +267,11 @@ export const caseStudies: CaseStudy[] = [
     name: "Letsha La Bophelo",
     slug: "letsha-la-bophelo",
     projectType: "Client Project",
+    category: "Marketing Website",
     tags: ["Web Design & Development", "Hosting & Support"],
     url: "https://letshalabophelo.org.za/",
     summary:
-      "Letsha La Bophelo has run retreats, skills training and community empowerment programmes in South Africa since 1999. Katore designed and built its site — programmes, projects, impact and partnership pages with donation and enquiry paths — and hosts and maintains it.",
+      "Letsha La Bophelo has run retreats, skills training and community empowerment programmes in South Africa since 1999. Katore designed and built its site, covering the programmes, projects, impact and partnership pages, with clear routes to donate or partner, and hosts and maintains it.",
     poster: "/work/letsha-la-bophelo.webp",
     loop: "/work/letsha-la-bophelo.mp4",
     gradient: "from-[#1e1c15] to-[#38332a]",
@@ -210,11 +281,12 @@ export const caseStudies: CaseStudy[] = [
     name: "Mintirho Healthcare",
     slug: "mintirho",
     projectType: "Client Project",
+    category: "Marketing Website",
     tags: ["Web Design & Development"],
     // The bare domain answers 200 with an empty body; only /index.html renders.
     url: "https://mintirhohcs.co.za/index.html",
     summary:
-      "Mintirho Healthcare and Consulting Services is an occupational health provider running medical surveillance and workplace wellness programmes for South African employers. Katore designed and built the site from scratch, presenting its compliance services alongside on-site offerings like the IV lounge and smoothie bike, with clear routes to book an appointment.",
+      "Mintirho Healthcare and Consulting Services is an occupational health provider running medical surveillance and workplace wellness programmes for South African employers. Katore designed and built the site from scratch, presenting its compliance services alongside the offerings delivered on site, such as the IV lounge and the smoothie bike, with clear routes to book an appointment.",
     poster: "/work/mintirho.webp",
     loop: "/work/mintirho.mp4",
     gradient: "from-[#1c2226] to-[#2f383d]",
@@ -224,10 +296,11 @@ export const caseStudies: CaseStudy[] = [
     name: "Y68°",
     slug: "y68",
     projectType: "Concept Development",
+    category: "Motion Website",
     tags: ["Web Design & Development"],
     url: "https://basketball-lake.vercel.app/",
     summary:
-      "Y68° is a self-directed concept, not client work. Katore built it to explore what a motion-led product site can do in the browser: a real-time 3D ball rendered with three.js, scroll-driven choreography with GSAP, and a bold editorial layout. The street-ball premise is a design exercise — the product, its players and its statistics are illustrative, not real.",
+      "Y68° is a concept piece rather than client work. Katore built it to explore how far a motion led product site can go in the browser: a live 3D ball rendered with three.js, choreography driven entirely by scroll with GSAP, and a bold editorial layout. The street basketball premise is a design exercise, so the product, its players and its statistics are illustrative rather than real.",
     poster: "/work/y68.webp",
     loop: "/work/y68.mp4",
     gradient: "from-[#26251f] to-[#3a3833]",

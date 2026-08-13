@@ -7,9 +7,10 @@ import type { NextConfig } from "next";
 const isProduction = process.env.NEXT_PUBLIC_DEPLOY_ENV === "production";
 
 /**
- * Service slugs retired when the Services section was consolidated from six
- * offerings to four (see `serviceCards` in lib/data.ts), each pointed at the
- * service that absorbed it.
+ * Service slugs retired when the Services section was reworked (see
+ * `serviceCards` in lib/data.ts), each pointed at the service that absorbed it.
+ * The live set is now five: web, custom software, automation, product
+ * development, hosting.
  *
  * Without these, `/services/[slug]` still answers on the old paths — it falls
  * back to de-slugging whatever it is handed — so a stale link would render a

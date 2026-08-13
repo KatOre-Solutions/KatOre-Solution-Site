@@ -33,6 +33,18 @@
   --status-concept-surface: #fdf1e4;
   --status-concept-border: #e2a86b;
 
+  /*
+   * Project category. A cool sapphire: the third hue in the system after the
+   * green and the amber, chosen because it sits with the graphite and silver
+   * rather than fighting them, and because it cannot be confused with either
+   * of the other two accents. Text reads at 9.2:1 on its own fill and the
+   * border at 1.99:1 on the page, so the chip carries its own edge instead of
+   * dissolving into the ground the way the old neutral one did.
+   */
+  --category: #1d3c78;
+  --category-surface: #e9eff9;
+  --category-border: #9ab4dd;
+
   /* Legacy token names kept so components need no sweeping rename; they now
      point into the metallic ramp instead of the old indigo one. */
   --accent: var(--silver);
@@ -73,6 +85,9 @@
   --color-status-concept: var(--status-concept);
   --color-status-concept-surface: var(--status-concept-surface);
   --color-status-concept-border: var(--status-concept-border);
+  --color-category: var(--category);
+  --color-category-surface: var(--category-surface);
+  --color-category-border: var(--category-border);
   --font-sans:
     "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
