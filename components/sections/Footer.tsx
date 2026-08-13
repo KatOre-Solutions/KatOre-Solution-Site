@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import OrbitingCirclesGlobe from "@/components/ui/orbiting-circles-02";
+import { CONTACT_EMAIL, emailLink } from "@/lib/contact";
 
 function ArrowUpRight({ className = "" }: { className?: string }) {
   return (
@@ -22,6 +23,7 @@ function ArrowUpRight({ className = "" }: { className?: string }) {
 
 export default function Footer() {
   const [time, setTime] = useState("");
+  const [emailUser, emailDomain] = CONTACT_EMAIL.split("@");
 
   useEffect(() => {
     // Africa/Johannesburg is SAST (UTC+2) year-round — no DST to handle.
@@ -43,11 +45,15 @@ export default function Footer() {
         {/* Top area */}
         <div className="grid gap-12 border-b border-border pb-16 md:grid-cols-2">
           <div>
+            {/* Address and link come from lib/contact so the footer cannot
+                drift from the contact page. The break opportunity at the @
+                stops a 320px screen splitting it as "gmail.co / m". */}
             <a
-              href="mailto:katoresolution@gmail.com"
-              className="text-2xl font-medium text-foreground transition-colors hover:text-muted-foreground md:text-3xl"
+              href={emailLink}
+              className="block break-words text-xl font-medium text-foreground transition-colors hover:text-muted-foreground sm:text-2xl md:text-3xl"
             >
-              katoresolution@gmail.com
+              {emailUser}@<wbr />
+              {emailDomain}
             </a>
             <div className="mt-6 flex flex-col gap-2">
               <a
@@ -83,7 +89,10 @@ export default function Footer() {
         {/* Technologies we use — replaces the old Services / Atom / Resources
             link columns. The rings are clipped at the section's bottom edge, so
             this sits directly above the copyright rule. */}
-        <div className="pt-16">
+        {/* overflow-hidden because the orbit rings are a fixed 440px across at
+            the small breakpoint, which is wider than a 320px phone and gave
+            every page on the site 12px of horizontal scroll there. */}
+        <div className="overflow-hidden pt-16">
           <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             Technologies We Use
           </p>

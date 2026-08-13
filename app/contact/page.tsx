@@ -1,13 +1,11 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import ContactDetail from "@/components/sections/ContactDetail";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
-export const metadata = { title: "Contact | Katore Solutions" };
+export const metadata = {
+  title: "Contact | Katore Solutions",
+  description: `Tell us about your idea, challenge, or project. Reach Katore Solutions by email at ${CONTACT_EMAIL} or message the founding team on WhatsApp.`,
+};
 
 export default function ContactPage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Contact"
-      title="Start Your Project"
-      description="Tell us the problem you are trying to solve and we will come back to you. Reach us at katoresolution@gmail.com."
-    />
-  );
+  return <ContactDetail />;
 }
