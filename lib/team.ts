@@ -23,12 +23,12 @@ export const founders: Founder[] = [
     initials: "OD",
   },
   {
-    name: "Katleho",
+    name: "Katleho Madaba",
     role: "Co Founder · Software Engineer",
     bio: "As Co Founder of Katore Solutions, Katleho brings her software engineering expertise and technical perspective to the products and solutions we build. Together, the founding team combines engineering, creativity and problem solving to build technology with purpose.",
     focus: ["Software Engineering", "System Design", "Web & Mobile Applications"],
     photo: "/company/katleho.jpg",
-    initials: "K",
+    initials: "KM",
   },
 ];
 
