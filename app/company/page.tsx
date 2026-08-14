@@ -1,13 +1,11 @@
-import PlaceholderPage from "@/components/PlaceholderPage";
+import CompanyDetail from "@/components/sections/CompanyDetail";
 
-export const metadata = { title: "Company | Katore Solutions" };
+export const metadata = {
+  title: "Company | Katore Solutions",
+  description:
+    "Katore Solutions is an engineering led technology company, founded and run by software engineers. Meet the founding team and how we think about building technology.",
+};
 
 export default function CompanyPage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Company"
-      title="Who We Are"
-      description="Katore Solutions is an engineering led technology company, founded and run by software engineers. We start with the problem, design the right solution, and build it properly. Based in Johannesburg, South Africa, working with clients globally."
-    />
-  );
+  return <CompanyDetail />;
 }
