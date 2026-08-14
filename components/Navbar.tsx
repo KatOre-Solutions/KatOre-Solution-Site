@@ -49,6 +49,7 @@ export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   // Scroll blur / shrink
   useEffect(() => {
@@ -75,6 +76,12 @@ export default function Navbar() {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
+
+  // Collapse the mobile Services accordion whenever the menu itself closes,
+  // so reopening it doesn't resume mid-expansion.
+  useEffect(() => {
+    if (!open) setMobileServicesOpen(false);
+  }, [open]);
 
   // Mega-menu animation
   useEffect(() => {
@@ -167,10 +174,11 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Services mega-menu */}
+      {/* Services mega-menu — desktop only. Mobile gets its own accordion
+          panel below, since this one relies on hover and a wide grid. */}
       <div
         ref={menuRef}
-        className="invisible absolute inset-x-0 top-full opacity-0"
+        className="invisible absolute inset-x-0 top-full hidden opacity-0 md:block"
         onMouseEnter={() => setOpen(true)}
       >
         <div className="mx-auto max-w-[var(--w-main)] px-5 pb-4 md:px-8">
@@ -219,6 +227,80 @@ export default function Navbar() {
                 </Link>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile menu — its own accordion panel rather than the hover-driven
+          mega-menu above, so Work/Company/Contact stay reachable and
+          Services expands in place instead of needing a wide grid. */}
+      <div
+        className={`overflow-hidden transition-[max-height] duration-300 ease-in-out md:hidden ${
+          open ? "max-h-[32rem]" : "max-h-0"
+        }`}
+      >
+        <div className="mx-auto max-w-[var(--w-main)] px-5 pb-4">
+          <div className="flex flex-col gap-1 rounded-2xl border border-card-border bg-card/95 p-3 shadow-[0_18px_50px_rgba(17,19,21,0.10)] backdrop-blur-xl">
+            {navLinks.slice(0, 2).map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
+              >
+                {l.label}
+              </Link>
+            ))}
+
+            <button
+              onClick={() => setMobileServicesOpen((v) => !v)}
+              className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
+              aria-expanded={mobileServicesOpen}
+            >
+              Services
+              <svg
+                viewBox="0 0 24 24"
+                className={`h-3 w-3 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+            <div
+              className={`overflow-hidden pl-3 transition-[max-height] duration-300 ease-in-out ${
+                mobileServicesOpen ? "max-h-96" : "max-h-0"
+              }`}
+            >
+              {services.map((s) => (
+                <Link
+                  key={s.href}
+                  href={s.href}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-lg px-3 py-2 text-sm text-foreground/70 transition-colors hover:bg-foreground/5 hover:text-foreground"
+                >
+                  {s.label}
+                </Link>
+              ))}
+            </div>
+
+            <Link
+              href={navLinks[2].href}
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
+            >
+              {navLinks[2].label}
+            </Link>
+
+            <Link
+              href="/contact"
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cta px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-cta-hover"
+            >
+              Start Your Project
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
       </div>
