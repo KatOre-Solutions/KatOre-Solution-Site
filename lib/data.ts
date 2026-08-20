@@ -149,6 +149,13 @@ export type CaseStudy = {
    *  free of invented metrics, outcomes and testimonials: if a claim cannot be
    *  verified, it does not appear here. */
   summary: string;
+  /**
+   * Meta description for the case-study page: scope and outcome in one line,
+   * kept under 155 characters so a search result shows it whole. Written out
+   * rather than sliced from `summary`, whose opening sentence introduces the
+   * client rather than the work.
+   */
+  seoDescription: string;
   /** Set only while the work is not publicly complete. */
   status?: string;
   /** Still frame, shown always. ~30–50KB WebP in /public/work. */
@@ -177,6 +184,8 @@ export const caseStudies: CaseStudy[] = [
     number: "01",
     name: "GuardianCheck",
     slug: "guardiancheck",
+    seoDescription:
+      "Katore's own church safeguarding SaaS: QR child sign-in, guardian verification and attendance reporting, built end to end on React and Firebase.",
     projectType: "Katore Product",
     category: "SaaS Platform",
     tags: [
@@ -233,6 +242,8 @@ export const caseStudies: CaseStudy[] = [
     number: "02",
     name: "Hey Beautiful",
     slug: "hey-beautiful",
+    seoDescription:
+      "A women's wellness supplement storefront built as a custom Next.js app with headless Shopify, giving the brand full control of the shopping experience.",
     projectType: "Client Project",
     category: "Ecommerce",
     tags: ["Web Design & Development", "Custom Software Solutions"],
@@ -248,6 +259,8 @@ export const caseStudies: CaseStudy[] = [
     number: "03",
     name: "New Lease of Life Foundation",
     slug: "new-lease-of-life",
+    seoDescription:
+      "A Pretoria nonprofit site built by Katore, with the donation flow, WhatsApp volunteer signup and events pages that turn visitors into supporters.",
     projectType: "Client Project",
     category: "Marketing Website",
     tags: [
@@ -266,6 +279,8 @@ export const caseStudies: CaseStudy[] = [
     number: "04",
     name: "Letsha La Bophelo",
     slug: "letsha-la-bophelo",
+    seoDescription:
+      "A site for a South African retreats and community empowerment nonprofit, covering programmes, impact and partnerships with clear routes to donate.",
     projectType: "Client Project",
     category: "Marketing Website",
     tags: ["Web Design & Development", "Hosting & Support"],
@@ -280,6 +295,8 @@ export const caseStudies: CaseStudy[] = [
     number: "05",
     name: "Mintirho Healthcare",
     slug: "mintirho",
+    seoDescription:
+      "A site for a South African occupational health provider, presenting medical surveillance and wellness services with clear routes to book an appointment.",
     projectType: "Client Project",
     category: "Marketing Website",
     tags: ["Web Design & Development"],
@@ -295,6 +312,8 @@ export const caseStudies: CaseStudy[] = [
     number: "06",
     name: "Y68°",
     slug: "y68",
+    seoDescription:
+      "A Katore concept piece exploring motion led web design: a live three.js 3D ball with scroll driven GSAP choreography and a bold editorial layout.",
     projectType: "Concept Development",
     category: "Motion Website",
     tags: ["Web Design & Development"],

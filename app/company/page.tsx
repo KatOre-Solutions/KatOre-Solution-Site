@@ -1,10 +1,12 @@
 import CompanyDetail from "@/components/sections/CompanyDetail";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Company | Katore Solutions",
+export const metadata = pageMetadata({
+  titlePart: "About Us: A Johannesburg Software Studio",
   description:
-    "Katore Solutions is an engineering led technology company, founded and run by software engineers. Meet the founding team and how we think about building technology.",
-};
+    "Katore Solutions is a software development studio in Johannesburg, founded and run by engineers. Meet the founding team and how we build technology.",
+  path: "/company",
+});
 
 export default function CompanyPage() {
   return <CompanyDetail />;

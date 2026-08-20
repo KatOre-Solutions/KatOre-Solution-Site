@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServiceDetail from "@/components/sections/ServiceDetail";
 import { serviceCards } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 import { servicePages } from "@/lib/serviceContent";
 
 export function generateStaticParams() {
@@ -21,10 +22,13 @@ export async function generateMetadata({
   const content = servicePages[slug];
   if (!content) return {};
 
-  return {
-    title: `${content.pageTitle} | Katore Solutions`,
-    description: content.intro,
-  };
+  // Both parts come from `servicePages`, the same source the page body renders
+  // from, so a service can never carry another service's metadata.
+  return pageMetadata({
+    titlePart: content.seo.titlePart,
+    description: content.seo.description,
+    path: `/services/${slug}`,
+  });
 }
 
 export default async function ServicePage({

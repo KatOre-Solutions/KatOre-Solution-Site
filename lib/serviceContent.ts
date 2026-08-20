@@ -18,6 +18,14 @@ export type ServicePage = {
    * ampersand in `serviceCards.title`, which exists only because the home page
    * card pins its headline to a single line.
    */
+  /**
+   * Search metadata for this service. Lives beside the page copy so a new
+   * service cannot ship carrying the title or description of another one.
+   *
+   * `titlePart` leads with the service's own target term and carries no
+   * brand suffix — the root layout's title template appends that.
+   */
+  seo: { titlePart: string; description: string };
   pageTitle: string;
   /** Sentence case headline under the display heading. */
   headline: string;
@@ -36,6 +44,11 @@ export type ServicePage = {
 
 export const servicePages: Record<string, ServicePage> = {
   "web-design-development": {
+    seo: {
+      titlePart: "Web Design & Development in South Africa",
+      description:
+        "Web design and development in South Africa. We build fast, responsive websites that represent your brand clearly and guide visitors toward action.",
+    },
     pageTitle: "Web Design and Development",
     headline: "Websites built to do more than look good.",
     intro:
@@ -127,6 +140,11 @@ export const servicePages: Record<string, ServicePage> = {
   },
 
   "custom-software": {
+    seo: {
+      titlePart: "Custom Software Development in South Africa",
+      description:
+        "Custom software development in South Africa. When off the shelf tools do not fit how you work, we design and build systems around your operations.",
+    },
     pageTitle: "Custom Software Solutions",
     headline: "Technology built around your challenges.",
     intro:
@@ -230,6 +248,11 @@ export const servicePages: Record<string, ServicePage> = {
   },
 
   "automation-integrations": {
+    seo: {
+      titlePart: "Business Automation & Integrations",
+      description:
+        "Business automation and system integration in South Africa. We connect the tools you already use and automate repetitive work to cut manual effort.",
+    },
     pageTitle: "Automation and Integrations",
     headline: "Make your systems work together.",
     intro:
@@ -332,6 +355,11 @@ export const servicePages: Record<string, ServicePage> = {
   },
 
   "product-development": {
+    seo: {
+      titlePart: "Product & MVP Development in South Africa",
+      description:
+        "MVP and product development in South Africa. We help founders and teams shape an idea into a usable product, from first concept to a working build.",
+    },
     pageTitle: "Digital Product Development",
     headline: "Turn the right idea into a real product.",
     intro:
@@ -431,6 +459,11 @@ export const servicePages: Record<string, ServicePage> = {
   },
 
   "hosting-support": {
+    seo: {
+      titlePart: "Website Hosting & Support in South Africa",
+      description:
+        "Website hosting and support in South Africa. We keep your site and digital systems available, maintained, updated and monitored once they are live.",
+    },
     pageTitle: "Hosting and Ongoing Support",
     headline: "Launching is only the beginning.",
     intro:

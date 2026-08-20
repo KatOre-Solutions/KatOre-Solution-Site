@@ -9,6 +9,7 @@ import {
   StatusBadge,
 } from "@/components/ui/ProjectMeta";
 import { caseStudies } from "@/lib/data";
+import { pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return caseStudies.map((cs) => ({ slug: cs.slug }));
@@ -30,12 +31,13 @@ export async function generateMetadata({
   const cs = caseStudies.find((c) => c.slug === slug);
   if (!cs) return {};
 
-  return {
-    title: `${cs.name} | Katore Solutions`,
-    // First sentence of the summary: enough to describe the work without
-    // running past what a search result will show.
-    description: `${cs.projectType}. ${cs.summary.split(". ")[0]}.`,
-  };
+  // `category` rather than `projectType` in the title: "SaaS Platform" is what
+  // someone searches for, "Client Project" describes only whose work it was.
+  return pageMetadata({
+    titlePart: `${cs.name}: ${cs.category} Case Study`,
+    description: cs.seoDescription,
+    path: `/case-study/${slug}`,
+  });
 }
 
 export default async function CaseStudyPage({
