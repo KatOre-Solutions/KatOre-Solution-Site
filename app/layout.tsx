@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "Katore Solutions | Building Digital Solutions That Matter",
   description:
     "An engineering led technology company. We design and build websites, software and digital systems that solve real business problems and create lasting value.",
+  verification: {
+    google: "MBRhCK7Z0a31F7y4F5nDhSWbf2aeRMW8RwNshOqNgwk",
+  },
 };
 
 export default function RootLayout({
