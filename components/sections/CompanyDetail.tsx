@@ -43,7 +43,7 @@ export default function CompanyDetail() {
         <div className={SHELL}>
           <Eyebrow>Founding Team</Eyebrow>
           <div className="mt-4">
-            <SectionHeading title="The people behind Katore." />
+            <SectionHeading title="The people behind Katore Solutions." />
           </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 md:gap-8">
