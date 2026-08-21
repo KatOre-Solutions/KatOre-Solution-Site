@@ -1,21 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <!--
-    Katore Solutions tab icon: the KO mark on the brand graphite.
+    Katore Solutions tab icon: the full `<KO/>` lockup on the brand graphite.
 
-    The full lockup is <KO/> at 3.8:1. Dropped into a square that leaves the
-    letterforms about 4px tall in a 16px tab, so the outer chevrons are omitted
-    and the KO/ core is drawn twice the size instead — a favicon has to survive
-    16px, and a legible mark beats a faithful but unreadable one. The navbar
-    wordmark and the particle field both still carry the full lockup.
+    Square adaptation, not a crop. The lockup in components/ui/Logo.tsx is
+    3.8:1 — fitting it into a square by width would leave the letterforms ~17
+    units tall in a 64 box, i.e. about 4px in a 16px tab. So the chevron arms
+    are shortened (6 units of reach here against 52/380 in the lockup) and the
+    KO/ core is scaled to 0.78 rather than shrunk to fit. Same elements, same
+    order, same stroke ratio between chevron and core; only the horizontal
+    reach is compressed.
+
+    Keep in sync with components/ui/Logo.tsx — a static file convention cannot
+    import the shared geometry, so this is the one deliberate duplication.
   -->
   <rect width="64" height="64" rx="14" fill="#111315"/>
-  <g fill="none" stroke="#f7f8fa" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
-    <!-- K -->
-    <path d="M15 21v22"/>
-    <path d="M26 21 15 32l11 11"/>
-    <!-- O -->
-    <circle cx="35.5" cy="32" r="7.5"/>
-    <!-- Slash -->
-    <path d="M45 43 51 21"/>
+  <g fill="none" stroke="#f7f8fa" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Outer chevrons: < ... > . Thinner than the core, matching the 13:15
+         stroke ratio the lockup uses. -->
+    <g stroke-width="3.6">
+      <path d="M13 22 6 32l7 10"/>
+      <path d="M51 22 58 32l-7 10"/>
+    </g>
+    <!-- KO/ core, scaled about the centre so the tuned 64-unit geometry below
+         stays readable as authored. Stroke is pre-divided by the scale so it
+         still lands at 4.0 on screen. -->
+    <g transform="translate(33 32) scale(0.78) translate(-33 -32)" stroke-width="5.13">
+      <!-- K -->
+      <path d="M15 21v22"/>
+      <path d="M26 21 15 32l11 11"/>
+      <!-- O -->
+      <circle cx="35.5" cy="32" r="7.5"/>
+      <!-- Slash -->
+      <path d="M45 43 51 21"/>
+    </g>
   </g>
 </svg>
