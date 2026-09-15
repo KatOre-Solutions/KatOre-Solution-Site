@@ -11,7 +11,7 @@ export type Founder = {
 export const founders: Founder[] = [
   {
     name: "Katleho Madaba",
-    role: "Co Founder · Software Engineer",
+    role: "Co Founder",
     bio: "As Co Founder of Katore Solutions, Katleho brings her software engineering expertise and technical perspective to the products and solutions we build. Together, the founding team combines engineering, creativity and problem solving to build technology with purpose.",
     focus: ["Software Engineering", "System Design", "Web & Mobile Applications"],
     photo: "/company/katleho.jpg",
@@ -19,7 +19,7 @@ export const founders: Founder[] = [
   },
   {
     name: "Oreutlwile Diutlwileng",
-    role: "Founder · Software Engineer",
+    role: "Founder",
     bio: "As Founder of Katore Solutions, Ore leads the company's vision and focuses on turning complex ideas into practical digital solutions. His work spans software engineering, web development, automation, and building products designed around real business needs.",
     focus: [
       "Software Engineering",

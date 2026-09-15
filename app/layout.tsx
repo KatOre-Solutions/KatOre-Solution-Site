@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: {
     // Pages set only their own part; the brand is appended here once.
     template: `%s | ${SITE_NAME}`,
-    default: `Software Development Company in South Africa | ${SITE_NAME}`,
+    default: `Custom Software Development Company | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   openGraph: {
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     locale: "en_ZA",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
   },
   verification: {
     google: "MBRhCK7Z0a31F7y4F5nDhSWbf2aeRMW8RwNshOqNgwk",

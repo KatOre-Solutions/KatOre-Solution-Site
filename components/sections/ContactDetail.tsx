@@ -5,7 +5,7 @@ import Footer from "@/components/sections/Footer";
 import Reveal from "@/components/ui/Reveal";
 import {
   CONTACT_EMAIL,
-  emailLink,
+  emailLinkFor,
   whatsappContacts,
   whatsappLink,
 } from "@/lib/contact";
@@ -42,7 +42,8 @@ function WhatsAppMark({ className = "" }: { className?: string }) {
   );
 }
 
-export default function ContactDetail() {
+export default function ContactDetail({ source }: { source?: string }) {
+  const emailLink = emailLinkFor(source);
   const [emailUser, emailDomain] = CONTACT_EMAIL.split("@");
 
   return (
@@ -154,7 +155,7 @@ export default function ContactDetail() {
                         not, with pt-8 giving the gap that mt-auto cannot. */}
                     <div className="mt-auto pt-8">
                       <a
-                        href={whatsappLink(person.international)}
+                        href={whatsappLink(person.international, source)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="group inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-silver hover:bg-platinum"
@@ -199,7 +200,7 @@ export default function ContactDetail() {
                     </span>
                   </a>
                   <a
-                    href={whatsappLink(whatsappContacts[0].international)}
+                    href={whatsappLink(whatsappContacts[0].international, source)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group inline-flex items-center gap-2 rounded-full border border-white/25 px-8 py-4 text-base font-medium text-white transition-colors hover:border-white/60 hover:bg-white/5"
