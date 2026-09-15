@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import { serviceCards } from "@/lib/data";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
@@ -419,6 +420,21 @@ export default function ServicesSection() {
                       : "border-white/10 bg-white/[0.05]"
                   }`}
                 >
+                  {/* The whole expanded card is the link to its service page.
+                      Stretched over the card rather than wrapped around it so
+                      the deck's geometry is untouched, and inert while the
+                      card is collapsed, since a spine label the visitor cannot
+                      read is not something to click. Scrolling passes through
+                      either way, so the pinned scrub is unaffected. */}
+                  <Link
+                    href={`/services/${card.slug}`}
+                    aria-label={card.title}
+                    tabIndex={i === active ? undefined : -1}
+                    className={`absolute inset-0 z-10 rounded-2xl ${
+                      i === active ? "" : "pointer-events-none"
+                    }`}
+                  />
+
                   {/* Always-on layer: number + title, the only thing a
                       collapsed card shows. */}
                   <div className="flex items-start justify-between">

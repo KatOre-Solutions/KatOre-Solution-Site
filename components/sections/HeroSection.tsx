@@ -165,7 +165,7 @@ export default function HeroSection() {
           </h1>
 
           <p className="hero-anim mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-            Katore Solutions is a software development company in South Africa.
+            Katore Solutions is an engineering led software development company.
             We design and build websites, software and digital systems that
             solve real business problems and create lasting value.
           </p>

@@ -5,7 +5,7 @@ export const SITE_NAME = "Katore Solutions";
 
 /** Default description, used on the root layout and as the OG/Twitter fallback. */
 export const SITE_DESCRIPTION =
-  "Katore Solutions is an engineering led software development company in South Africa, building websites, custom software and digital systems that last.";
+  "Katore Solutions is an engineering led software development company, building websites, custom software and digital systems that last.";
 
 /**
  * Per-page metadata.
@@ -48,9 +48,9 @@ export function pageMetadata({
       description,
     },
     twitter: {
-      // "summary", not "summary_large_image": the site has no Open Graph image
-      // asset yet, and the large-image card renders badly without one.
-      card: "summary",
+      // `app/opengraph-image.tsx` now generates a 1200x630 card for every
+      // route, which is the size the large-image layout expects.
+      card: "summary_large_image",
       title: fullTitle,
       description,
     },
@@ -80,7 +80,10 @@ const sameAs = [LINKEDIN_PROFILE_URL].filter((url) => /^https?:\/\//.test(url));
  * compete in local SEO and the map pack.
  *
  * `address` carries only what is true today — city, province, country — which
- * PostalAddress permits without a street line.
+ * PostalAddress permits without a street line. There is deliberately no
+ * `areaServed`: it would assert that the work stops at one border, and the
+ * company takes clients wherever they are. Where Katore is based is a fact the
+ * footer states; who it will work with is not something to fence off.
  */
 export const organizationJsonLd = {
   "@context": "https://schema.org",
@@ -95,10 +98,6 @@ export const organizationJsonLd = {
     addressLocality: "Johannesburg",
     addressRegion: "Gauteng",
     addressCountry: "ZA",
-  },
-  areaServed: {
-    "@type": "Country",
-    name: "South Africa",
   },
   ...(sameAs.length > 0 ? { sameAs } : {}),
 };
@@ -129,10 +128,6 @@ export function serviceJsonLd({
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
-    },
-    areaServed: {
-      "@type": "Country",
-      name: "South Africa",
     },
   };
 }

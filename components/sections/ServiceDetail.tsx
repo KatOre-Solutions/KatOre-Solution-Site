@@ -56,7 +56,7 @@ export default function ServiceDetail({
                 {content.intro}
               </p>
               <Link
-                href="/contact"
+                href={`/contact?from=${card.slug}`}
                 className="group mt-7 inline-flex items-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-medium text-white shadow-[0_1px_2px_rgba(17,19,21,0.16)] transition-colors hover:bg-cta-hover"
               >
                 {content.ctaLabel}
@@ -199,7 +199,7 @@ export default function ServiceDetail({
                 </h2>
                 <div className="mt-10">
                   <Link
-                    href="/contact"
+                    href={`/contact?from=${card.slug}`}
                     className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-base font-medium text-foreground transition-colors hover:bg-platinum"
                   >
                     {content.ctaLabel}
