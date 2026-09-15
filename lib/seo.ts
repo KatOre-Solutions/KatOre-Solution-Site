@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, absoluteUrl } from "@/lib/site";
 
 export const SITE_NAME = "Katore Solutions";
 
@@ -102,3 +102,57 @@ export const organizationJsonLd = {
   },
   ...(sameAs.length > 0 ? { sameAs } : {}),
 };
+
+/**
+ * Service schema for a single `/services/[slug]` page.
+ *
+ * `name` and `description` are passed in from `servicePages[slug].seo`, the
+ * same fields `pageMetadata` uses for the title and meta description, so the
+ * structured data can never drift from what the page actually says.
+ */
+export function serviceJsonLd({
+  slug,
+  name,
+  description,
+}: {
+  slug: string;
+  name: string;
+  description: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    url: absoluteUrl(`/services/${slug}`),
+    provider: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "South Africa",
+    },
+  };
+}
+
+/**
+ * Breadcrumb schema for a page one level below Home.
+ *
+ * There is no `/services` index route (only `/services/[slug]`), so a service
+ * page's trail is Home -> the service itself, not a three level path through a
+ * listing page that does not exist.
+ */
+export function breadcrumbJsonLd(trail: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: trail.map((step, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: step.name,
+      item: absoluteUrl(step.path),
+    })),
+  };
+}
