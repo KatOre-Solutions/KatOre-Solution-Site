@@ -45,9 +45,9 @@ export type ServicePage = {
 export const servicePages: Record<string, ServicePage> = {
   "web-design-development": {
     seo: {
-      titlePart: "Web Design & Development in South Africa",
+      titlePart: "Web Design & Development",
       description:
-        "Web design and development in South Africa. We build fast, responsive websites that represent your brand clearly and guide visitors toward action.",
+        "Web design and development. We build fast, responsive websites that represent your brand clearly and guide visitors toward action.",
     },
     pageTitle: "Web Design and Development",
     headline: "Websites built to do more than look good.",
@@ -141,9 +141,9 @@ export const servicePages: Record<string, ServicePage> = {
 
   "custom-software": {
     seo: {
-      titlePart: "Custom Software Development in South Africa",
+      titlePart: "Custom Software Development",
       description:
-        "Custom software development in South Africa. When off the shelf tools do not fit how you work, we design and build systems around your operations.",
+        "Custom software development. When off the shelf tools do not fit how you work, we design and build systems around your operations.",
     },
     pageTitle: "Custom Software Solutions",
     headline: "Technology built around your challenges.",
@@ -251,7 +251,7 @@ export const servicePages: Record<string, ServicePage> = {
     seo: {
       titlePart: "Business Automation & Integrations",
       description:
-        "Business automation and system integration in South Africa. We connect the tools you already use and automate repetitive work to cut manual effort.",
+        "Business automation and system integration. We connect the tools you already use and automate repetitive work to cut manual effort.",
     },
     pageTitle: "Automation and Integrations",
     headline: "Make your systems work together.",
@@ -356,9 +356,9 @@ export const servicePages: Record<string, ServicePage> = {
 
   "product-development": {
     seo: {
-      titlePart: "Product & MVP Development in South Africa",
+      titlePart: "Product & MVP Development",
       description:
-        "MVP and product development in South Africa. We help founders and teams shape an idea into a usable product, from first concept to a working build.",
+        "MVP and product development. We help founders and teams shape an idea into a usable product, from first concept to a working build.",
     },
     pageTitle: "Digital Product Development",
     headline: "Turn the right idea into a real product.",
@@ -460,9 +460,9 @@ export const servicePages: Record<string, ServicePage> = {
 
   "hosting-support": {
     seo: {
-      titlePart: "Website Hosting & Support in South Africa",
+      titlePart: "Website Hosting & Support",
       description:
-        "Website hosting and support in South Africa. We keep your site and digital systems available, maintained, updated and monitored once they are live.",
+        "Website hosting and support. We keep your site and digital systems available, maintained, updated and monitored once they are live.",
     },
     pageTitle: "Hosting and Ongoing Support",
     headline: "Launching is only the beginning.",

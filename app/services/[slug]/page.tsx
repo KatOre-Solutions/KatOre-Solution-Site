@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ServiceDetail from "@/components/sections/ServiceDetail";
 import { serviceCards } from "@/lib/data";
-import { pageMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
 import { servicePages } from "@/lib/serviceContent";
 
 export function generateStaticParams() {
@@ -41,5 +41,32 @@ export default async function ServicePage({
   const content = servicePages[slug];
   if (!card || !content) notFound();
 
-  return <ServiceDetail card={card} content={content} />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            serviceJsonLd({
+              slug,
+              name: content.seo.titlePart,
+              description: content.seo.description,
+            })
+          ),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: card.title, path: `/services/${slug}` },
+            ])
+          ),
+        }}
+      />
+      <ServiceDetail card={card} content={content} />
+    </>
+  );
 }

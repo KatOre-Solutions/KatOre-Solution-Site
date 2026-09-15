@@ -2,9 +2,9 @@ import CompanyDetail from "@/components/sections/CompanyDetail";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  titlePart: "About Us: A Johannesburg Software Studio",
+  titlePart: "Engineer Led Software Team",
   description:
-    "Katore Solutions is a software development studio in Johannesburg, founded and run by engineers. Meet the founding team and how we build technology.",
+    "Katore Solutions is founded and run by engineers, not account managers. Meet the founding team and see how we approach custom software, from first conversation to delivery.",
   path: "/company",
 });
 
