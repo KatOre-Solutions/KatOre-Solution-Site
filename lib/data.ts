@@ -260,7 +260,7 @@ export const caseStudies: CaseStudy[] = [
     name: "New Lease of Life Foundation",
     slug: "new-lease-of-life",
     seoDescription:
-      "A Pretoria nonprofit site built by Katore, with the donation flow, WhatsApp volunteer signup and events pages that turn visitors into supporters.",
+      "A Pretoria nonprofit site built by Katore, with the donation flow, WhatsApp volunteer signup and programme pages that turn visitors into supporters.",
     projectType: "Client Project",
     category: "Marketing Website",
     tags: [
@@ -270,7 +270,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     url: "https://newleaseoflifefoundation.org/",
     summary:
-      "New Lease of Life Foundation is a Pretoria nonprofit helping homeless young people build sustainable futures through technical training, life skills and entrepreneurship programmes. Katore designed and built the site, then implemented the paths that turn a visitor into a supporter: the donation flow, the WhatsApp volunteer signup, and the events and fundraiser pages. Katore hosts and maintains it.",
+      "New Lease of Life Foundation is a Pretoria nonprofit helping homeless young people build sustainable futures through technical training, life skills and entrepreneurship programmes. Katore designed and built the site, then implemented the paths that turn a visitor into a supporter: the donation flow, the WhatsApp volunteer signup, and the volunteer and partnership application forms. Katore hosts and maintains it.",
     poster: "/work/new-lease-of-life.webp",
     loop: "/work/new-lease-of-life.mp4",
     gradient: "from-[#171a1c] to-[#2c3439]",
