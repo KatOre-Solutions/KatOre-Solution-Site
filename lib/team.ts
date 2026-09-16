@@ -19,8 +19,8 @@ export const founders: Founder[] = [
   },
   {
     name: "Oreutlwile Diutlwileng",
-    role: "Founder",
-    bio: "As Founder of Katore Solutions, Ore leads the company's vision and focuses on turning complex ideas into practical digital solutions. His work spans software engineering, web development, automation, and building products designed around real business needs.",
+    role: "Co Founder",
+    bio: "As Co Founder of Katore Solutions, Ore leads the company's vision and focuses on turning complex ideas into practical digital solutions. His work spans software engineering, web development, automation, and building products designed around real business needs.",
     focus: [
       "Software Engineering",
       "Product Development",

@@ -50,7 +50,7 @@ export type WhatsAppContact = {
 export const whatsappContacts: WhatsAppContact[] = [
   {
     name: "Ore",
-    role: "Founder",
+    role: "Co Founder",
     phone: "079 625 1393",
     international: "27796251393",
   },
